@@ -1,0 +1,21 @@
+{
+  "name": "rust-agents",
+  "description": "Rust learning companion and standards, distributed as load-on-demand skills.",
+  "owner": {
+    "name": "Tommy Seery"
+  },
+  "plugins": [
+    {
+      "name": "rust",
+      "source": "./plugins/rust",
+      "description": "Tommy's Rust learning companion and the Rust standards he grows from his own projects.",
+      "category": "Productivity",
+      "keywords": [
+        "rust",
+        "cargo",
+        "learning",
+        "standards"
+      ]
+    }
+  ]
+}

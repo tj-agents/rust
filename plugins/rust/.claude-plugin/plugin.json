@@ -1,0 +1,16 @@
+{
+  "name": "rust",
+  "displayName": "Rust",
+  "description": "Tommy's Rust learning companion and the Rust standards he grows from his own projects.",
+  "author": {
+    "name": "Tommy Seery"
+  },
+  "repository": "https://github.com/tj-agents/rust",
+  "skills": "./skills/",
+  "keywords": [
+    "rust",
+    "cargo",
+    "learning",
+    "standards"
+  ]
+}
