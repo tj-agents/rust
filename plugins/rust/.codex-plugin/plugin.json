@@ -1,0 +1,25 @@
+{
+  "name": "rust",
+  "version": "0.1.0",
+  "description": "Tommy's Rust learning companion and the Rust standards he grows from his own projects.",
+  "author": {
+    "name": "Tommy Seery"
+  },
+  "repository": "https://github.com/tj-agents/rust",
+  "skills": "./skills/",
+  "keywords": [
+    "rust",
+    "cargo",
+    "learning",
+    "standards"
+  ],
+  "interface": {
+    "displayName": "Rust",
+    "shortDescription": "Learn Rust and grow your own Rust standards.",
+    "longDescription": "A teaching method, a tracker that records only what Tommy has proven he knows in Rust, his learning direction, and Rust conventions agreed one decision at a time.",
+    "developerName": "Tommy Seery",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Teach me the next Rust concept my current task needs."
+  }
+}
