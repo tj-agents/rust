@@ -335,6 +335,12 @@ Tommy's decisions, recorded in the contract skills as they are made.
   non-event-sourced events; re-judged at modular-monolith scale. Decided: events only where another module
   or published contract reacts; the entity collects them in a private buffer; the repository's `save` (the
   only write path) drains them into the outbox in its transaction. → `rust:domain-design`.
+- 2026-10-03, Q5 errors: one enum per operation beside it; thiserror for error types, anyhow only at the
+  binary's top level; `Error + Send + Sync`, lowercase `Display`; wrap lower errors with `map_err` into a
+  named variant keeping `#[source]`, `#[from]` only when one call site can produce the source error; panics
+  only for states impossible unless the code is wrong, via `expect("why")`/`unreachable!`, `unwrap_used`
+  denied outside tests. Tommy asked whether "bugs only" meant unsafe libraries; the rule is worded as
+  "cannot occur unless the code is wrong". → `rust:errors`.
 
 ## Completion
 
