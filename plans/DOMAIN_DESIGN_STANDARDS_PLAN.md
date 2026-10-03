@@ -341,6 +341,30 @@ Tommy's decisions, recorded in the contract skills as they are made.
   only for states impossible unless the code is wrong, via `expect("why")`/`unreachable!`, `unwrap_used`
   denied outside tests. Tommy asked whether "bugs only" meant unsafe libraries; the rule is worded as
   "cannot occur unless the code is wrong". → `rust:errors`.
+- 2026-10-03, Q9 crates: one package (logic in `lib.rs`, thin `main.rs`); split into a workspace only for a
+  concrete reason, by subsystem, never by layer. Tommy rejected a prefixed example (`termboard-store`) and
+  asked for "folderized"; after the evidence (Cargo's crate namespace is flat; rust-analyzer, zed, uv, ruff,
+  bevy are all flat; matklad: flat is better than nested, folder = crate name) he chose flat
+  `crates/<crate-name>/`, folder = crate name, project prefix only for published crates. → `rust:structure`.
+- 2026-10-03, Q9 modules and Q8 ports: first answered `domain`/`application`/`infrastructure` with ports in
+  `application`. Tommy then asked whether those names are idiomatic Rust ("not just comfortable"); they are
+  not (only `domain` is common; Zero To Production and hexarch name adapters for what they are). Replaced:
+  a crate with I/O boundaries has a `domain` module whose areas hold their models, port traits and use-case
+  service (`domain/card.rs`, `domain/card/{ports,service}.rs`), and top-level adapter modules named for what
+  they adapt (`cli`, `sqlite`, `terminal`); a pure library groups by concept. → `rust:structure`.
+- 2026-10-03, Q8 trait use: a trait only for an external boundary or several real implementations, never
+  just to mock; `now` and similar values read at the entry point and passed in; tests use real adapters or
+  in-memory fakes. → `rust:domain-design`.
+- 2026-10-03, Q9 module style: `foo.rs` + `foo/`, enforced by clippy `mod_module_files`. Visibility: private
+  by default, `pub(crate)` for crate-internal sharing, `pub` only for exported API, rustc `unreachable_pub =
+  "warn"`. → `rust:structure`.
+- 2026-10-03, Q9 namespacing: the module is the prefix (`card::Title`, `card::Card` allowed), import types by
+  path, call functions through their module, qualify generic or clashing names; clippy
+  `module_name_repetitions = "warn"`. → `rust:style`. Re-exports: none in applications (one path per
+  item); libraries may `pub use` their API at the root and re-export dependency types they expose; no glob
+  imports except `use super::*` in tests. `Id<T>` lives in `domain/id.rs`. Adapters own wire and row types
+  and convert with `TryFrom`/`From`; domain types derive no serde traits. → `rust:structure`.
+
 
 ## Completion
 

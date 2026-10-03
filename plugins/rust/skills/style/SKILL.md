@@ -15,4 +15,7 @@ Owns naming, formatting, comments, and the lint policy above the repository's cl
 
 ## Agreed
 
-_Nothing yet._ Propose a rule through `rust:learning`'s convention procedure.
+- A type does not repeat its module's name (`card::Title`, `card::Status`, `card::FinishError`); the main
+  type may equal it (`card::Card`). Import types by path, call functions through their module
+  (`service::finish_card`), and qualify a generic or clashing name (`card::Status`). Enforced by clippy
+  `module_name_repetitions = "warn"`. Source: RFC 356 (`io::Error`); the Book 7.4.
