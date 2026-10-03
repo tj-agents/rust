@@ -1,6 +1,6 @@
 # Rust domain design, structure and scaffold standards
 
-Status: decisions recorded and scaffold built 2026-10-03; review and push remaining.
+Status: complete 2026-10-03. Pushed to `main` (a5e5e25); ownership released to the kit retrofit.
 
 ## Objective
 
@@ -407,6 +407,10 @@ candidate decisions the new rules settle, so the Termboard owner can apply them.
   now added. Code: the cargo-gate test inherited the application's exact pin and could make rustup download a
   toolchain; the test now runs with `RUSTUP_TOOLCHAIN=stable`. The exact pin itself is Tommy's decision and
   stays. 17 tests, generator check and payload check green.
+- 2026-10-03: pushed `main` 6984163..a5e5e25. CI run 37132361815: on Windows and Ubuntu the generator check
+  and all 17 tests passed (the cargo gate ran); the job then failed at the known `tj-agents/core` checkout
+  (private repository, default token), so the payload check was skipped there; it passes locally. Ownership
+  of `tj-agents/rust` released to the kit-retrofit session.
 
 ## Termboard follow-through
 
@@ -433,4 +437,5 @@ Candidate decisions in `termboard/plans/ROADMAP.md` that the new rules settle, f
 
 ## Next Steps
 
-1. Push `main` to `tj-agents/rust`, then message the kit-retrofit session that ownership is released.
+None. Completion criteria met. Follow-ups belong to their owners: Termboard applies the list above; the kit
+retrofit takes `tj-agents/rust` (profile rename, kit generator); the tier-gate finding goes to base or kit.
