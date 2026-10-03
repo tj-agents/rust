@@ -59,6 +59,10 @@ Owns how values, newtypes, entities, enums and state transitions are modelled, a
   collection or to erase a type at a boundary. Share behaviour through small traits with default methods, and
   add methods to a foreign type with an extension trait named `FooExt`. Why: generics inline and allocate
   nothing, and Rust has no inheritance. Source: Effective Rust Items 12–13, the Book 18.1–18.2, RFC 445.
+- A port trait exists only for an external boundary (storage, terminal, network) or several real
+  implementations, never only to mock. Values such as the current time are read at the entry point and
+  passed in; tests use real adapters or in-memory fakes. Why: a core that takes data needs no mocks. Source:
+  matklad, "How to Test"; the faux README.
 
 ### Domain events
 

@@ -13,6 +13,55 @@ provenance: house
 
 Owns workspace and crate layout, the module tree, visibility, and where dependencies are wired.
 
+## File structure
+
+```text
+Cargo.toml
+src/
+  lib.rs          # declares the modules
+  main.rs         # thin entry point: reads input and the clock, wires adapters, calls the domain
+  domain.rs
+  domain/
+    id.rs         # Id<T>
+    card.rs       # an area's model: Card, Title, Status, CardEvent
+    card/
+      ports.rs    # traits the area's use cases need
+      service.rs  # the area's use cases
+  cli.rs          # adapters, each named for what it adapts
+  sqlite.rs
+```
+
+Split for a concrete reason, the package becomes a workspace:
+
+```text
+Cargo.toml        # [workspace] only
+crates/
+  termboard/      # the binary
+  board/          # a subsystem crate, folder named as the crate
+```
+
 ## Agreed
 
-_Nothing yet._ Propose a rule through `rust:learning`'s convention procedure.
+- One package: logic in `lib.rs`, a thin `main.rs`. Split into a workspace only for a concrete reason (compile
+  parallelism, isolating a heavy dependency, a second binary, publishing), by subsystem, never by layer. Why:
+  a crate is the compile unit, and a layer chain builds serially. Source: the Book ch. 12; matklad, "Fast Rust
+  Builds".
+- Workspace crates sit flat in `crates/<crate-name>/`, each folder named exactly as its crate; only published
+  crates take the project prefix. Why: Cargo's crate namespace is flat, and a folder tree drifts from it.
+  Source: matklad, "Large Rust Workspaces"; rust-analyzer, zed.
+- A crate with I/O boundaries has a `domain` module whose areas hold their model, port traits (`ports.rs`)
+  and use cases (`service.rs`). Adapters are top-level modules named for what they adapt (`cli`, `sqlite`,
+  `terminal`), never `application` or `infrastructure`. A pure library groups by concept. Why: `domain` is
+  the one Rust layer word; everything else is named for what it is. Source: Zero To Production; How To Code
+  It hexarch.
+- Shared domain vocabulary is a domain module named for its concept (`domain::id`), never a `shared` or
+  `common` bucket. Source: house, by the rule above.
+- A module with children is `foo.rs` plus `foo/`, enforced by clippy `mod_module_files`. Source: the Book 7.5.
+- Items are private by default, `pub(crate)` for sharing inside the crate, `pub` only for exported API, with
+  rustc `unreachable_pub = "warn"`. Why: `pub` then means exported. Source: Effective Rust Item 22; matklad.
+- An application gives each item one path, so it re-exports nothing. A library may `pub use` its API at the
+  crate root and re-exports dependency types its API exposes. No glob imports except `use super::*` in test
+  modules. Source: rust-analyzer style guide; the Book 7.4; Effective Rust Items 23–24.
+- Adapters own their wire and row types and convert them into domain types with `TryFrom` or `From` at the
+  edge; domain types derive no serde traits. Why: wire, storage and model evolve separately. Source: Zero To
+  Production ch. 6; hexarch.
