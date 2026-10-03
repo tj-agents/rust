@@ -323,6 +323,18 @@ Tommy's decisions, recorded in the contract skills as they are made.
   explicitly. IDs: Tommy challenged a newtype per entity ("surely define a struct of a reusable id"), so one
   generic `Id<T>` (`u64` + `PhantomData<fn() -> T>`, hand-written trait impls), entity holds `Id<Self>`.
   Where `Id<T>` lives is a Q9 structure decision. → `rust:domain-design`.
+- 2026-10-03, Q3 aggregates: root owns children privately, read-only out, invariant changes are `&mut self
+  -> Result` root methods, other aggregates by `Id<T>`, no `Rc`/`RefCell`. → `rust:domain-design`.
+- 2026-10-03, Q4 state: data-carrying enum field, `&mut self -> Result` transitions; typestate only for
+  builders and in-scope protocols. → `rust:domain-design`.
+- 2026-10-03, Q6 shared behaviour (also settles Q8's generics-vs-`dyn` half): generics by default, `dyn`
+  for mixed collections or type erasure; small traits with default methods; `FooExt` extension traits.
+  → `rust:domain-design`.
+- 2026-10-03, Q7 domain events: Tommy asked why "no events by default" given .NET modular monoliths, then
+  whether "recommended" meant idiomatic or merely easy for small codebases. No Rust idiom exists for
+  non-event-sourced events; re-judged at modular-monolith scale. Decided: events only where another module
+  or published contract reacts; the entity collects them in a private buffer; the repository's `save` (the
+  only write path) drains them into the outbox in its transaction. → `rust:domain-design`.
 
 ## Completion
 
