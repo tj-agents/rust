@@ -21,13 +21,14 @@ class SourceLayoutTests(unittest.TestCase):
         cls.payloads = json.loads((ROOT / ".agents/plugins/payloads.json").read_text(encoding="utf-8"))
         cls.skills = sync_generated.discover(ROOT, cls.config)
 
-    def test_inventory_is_the_knowledge_and_contract_tiers(self) -> None:
+    def test_inventory_is_the_knowledge_contract_and_utility_tiers(self) -> None:
         kinds = {name: skill["metadata"]["kind"] for name, skill in self.skills.items()}
         self.assertEqual({"learning", "knowledge", "direction"}, {name for name, kind in kinds.items() if kind == "knowledge"})
         self.assertEqual(
             {"style", "structure", "domain-design", "errors", "testing", "build", "libraries"},
             {name for name, kind in kinds.items() if kind == "contract"},
         )
+        self.assertEqual({"scaffold"}, {name for name, kind in kinds.items() if kind == "utility"})
         self.assertFalse((ROOT / ".agents/skills").exists())
 
     def test_every_skill_is_in_exactly_one_profile(self) -> None:

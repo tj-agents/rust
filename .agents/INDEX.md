@@ -12,3 +12,4 @@ Generated from canonical `.agents/<kind>/<name>/` definitions.
 - `direction` — knowledge — knowledge — `.agents/knowledge/direction/SKILL.md`
 - `knowledge` — knowledge — knowledge — `.agents/knowledge/knowledge/SKILL.md`
 - `learning` — knowledge — knowledge — `.agents/knowledge/learning/SKILL.md`
+- `scaffold` — utility — utility — `.agents/utility/scaffold/SKILL.md`

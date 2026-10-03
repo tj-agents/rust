@@ -369,6 +369,12 @@ Tommy's decisions, recorded in the contract skills as they are made.
   `too_many_lines`; warnings fail CI. Docs: libraries document every exported item (`missing_docs`);
   applications only what needs it. → `rust:style`. Wiring: `main` is the composition root, no DI container.
   → `rust:structure`.
+- 2026-10-03, Q11 scaffold: a clean skeleton (empty `lib.rs`, `fn main() {}`), or `--lib` with a crate doc;
+  no sample logic, no empty modules, no git init, no workspace mode. Ships Cargo.toml with the agreed lints
+  plus `unsafe_code = "forbid"`, rust-toolchain.toml, rustfmt.toml, clippy.toml, .gitattributes, .gitignore,
+  Windows + Ubuntu CI and an AGENTS.md/CLAUDE.md pair. Toolchain: applications pin exactly, libraries track
+  stable, both set `rust-version`; the default version is the installed stable. Script: Python. Tests:
+  in-file unit modules plus one `tests/it/main.rs` binary. → `rust:build`, `rust:testing`, `rust:scaffold`.
 
 
 ## Completion

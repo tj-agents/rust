@@ -22,6 +22,9 @@
       "structure",
       "style",
       "testing"
+    ],
+    "utility": [
+      "scaffold"
     ]
   }
 }
