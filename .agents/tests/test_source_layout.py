@@ -3,6 +3,8 @@ from __future__ import annotations
 import importlib.util
 import json
 from pathlib import Path
+import shutil
+import tempfile
 from unittest import mock
 import unittest
 
@@ -38,10 +40,24 @@ class SourceLayoutTests(unittest.TestCase):
             source = ROOT / skill["relative"]
             package = ROOT / "plugins/rust/skills" / name / "SKILL.md"
             self.assertEqual(source.read_bytes(), package.read_bytes())
+            for relative, data in skill["resources"].items():
+                for skill_root in (".codex/skills", ".claude/skills", "plugins/rust/skills"):
+                    self.assertEqual(data, (ROOT / skill_root / name / relative).read_bytes())
             for adapter_root in (".codex/skills", ".claude/skills"):
                 adapter = (ROOT / adapter_root / name / "SKILL.md").read_text(encoding="utf-8")
                 self.assertIn("canonical shared definition", adapter)
                 self.assertNotEqual(source.read_text(encoding="utf-8"), adapter)
+
+    def test_skill_resources_ship_beside_every_generated_entry(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            shutil.copytree(ROOT / ".agents", root / ".agents", ignore=shutil.ignore_patterns("__pycache__"))
+            resource = root / ".agents/knowledge/learning/templates/example.txt"
+            resource.parent.mkdir(parents=True)
+            resource.write_bytes(b"line\r\nkept as written\n")
+            output, _ = sync_generated.build(root)
+        for skill_root in (".codex/skills", ".claude/skills", "plugins/rust/skills"):
+            self.assertEqual(b"line\r\nkept as written\n", output[f"{skill_root}/learning/templates/example.txt"])
 
     def test_bare_and_qualified_skill_references_resolve(self) -> None:
         for suffix, message in (
