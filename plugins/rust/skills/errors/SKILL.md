@@ -3,7 +3,7 @@ name: errors
 description: Tommy's agreed Rust error handling — Result and Option use, error types, propagation and panics. Read before writing or reviewing Rust that touches it; nothing applies until it is recorded here.
 kind: contract
 domain: rust
-profile: contract
+profile: core
 applicability: Rust projects
 requires: rust
 provenance: house

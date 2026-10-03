@@ -3,7 +3,7 @@ name: testing
 description: Tommy's agreed Rust testing — unit and integration tests, their naming, layout and fixtures. Read before writing or reviewing Rust that touches it; nothing applies until it is recorded here.
 kind: contract
 domain: rust
-profile: contract
+profile: core
 applicability: Rust projects
 requires: rust
 provenance: house
