@@ -38,3 +38,32 @@ Owns how values, newtypes, entities, enums and state transitions are modelled, a
 - An entity has private fields and an `id()` getter. It does not implement `PartialEq`; compare
   `a.id() == b.id()`. Why: structural equality calls two states of one entity different. Source: std
   `PartialEq` docs (books equal by ISBN), C-STRUCT-PRIVATE.
+
+### Aggregates
+
+- The root owns its children by value in private fields and exposes them read-only (`&[T]` or an iterator).
+  Every change that can break an invariant is a `&mut self -> Result` method on the root. Other aggregates
+  are held as `Id<T>`; no `Rc` or `RefCell` inside. Why: only the root can enforce a rule spanning its
+  children. Source: the Book 18.1 (`AveragedCollection`) and 15.6.
+
+### State
+
+- Lifecycle state is a data-carrying enum field whose variants hold only their own data. Transitions are
+  `&mut self -> Result<(), XError>` methods that match the current variant. Typestate is only for builders
+  and protocols driven within one scope. Why: stored state is a runtime value, and the enum makes invalid
+  combinations unrepresentable. Source: kornel on users.rust-lang.org, Cliffle's typestate post.
+
+### Shared behaviour
+
+- Accept a capability through generics (`impl Trait`, `<T: Trait>`); use `dyn Trait` only for a mixed
+  collection or to erase a type at a boundary. Share behaviour through small traits with default methods, and
+  add methods to a foreign type with an extension trait named `FooExt`. Why: generics inline and allocate
+  nothing, and Rust has no inheritance. Source: Effective Rust Items 12–13, the Book 18.1–18.2, RFC 445.
+
+### Domain events
+
+- Only a state change another module or a published contract reacts to raises a domain event. An
+  intent-named method pushes it onto the entity's private event buffer; the repository's `save`, the
+  aggregate's only write path, drains the buffer into the outbox inside its transaction. Why: dispatch cannot
+  be forgotten and composes across nested methods, with no ORM hook to do it. Source: house decision,
+  mirroring the .NET `domain-events` contract.
