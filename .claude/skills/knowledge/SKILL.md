@@ -11,5 +11,5 @@ provenance: house
 
 # Tommy's Rust knowledge
 
-Read and follow the [canonical shared definition](../../../.agents/knowledge/knowledge/SKILL.md) in full.
+Read and follow the [canonical definition](../../../.agents/rust/knowledge/knowledge/SKILL.md) in full.
 This discovery entry is generated; edit the referenced `.agents/` definition.

@@ -3,7 +3,7 @@ name: scaffold
 description: Create a new Rust package in the agreed `rust:structure` layout — a thin binary over a library, or a library alone — with the toolchain pin, lints, rustfmt, clippy, CI and agent files the Rust standards expect. Use when starting a Rust project; never run it over an existing tree.
 kind: utility
 domain: rust
-profile: utility
+profile: scaffold
 applicability: new Rust projects
 requires: rust
 provenance: house
@@ -31,18 +31,19 @@ python -B <skill-directory>/scripts/new_rust_project.py --name my_tool --destina
 
 Requires Python 3.9+, and rustup when `--toolchain` is omitted.
 
-The project gets `Cargo.toml` with the agreed lints, `rust-toolchain.toml`, `rustfmt.toml`, `clippy.toml`,
-`.gitattributes`, `.gitignore`, a Windows and Ubuntu CI workflow, and an `AGENTS.md`/`CLAUDE.md` pair.
+The tier gate blocks `rust:*` where no `Cargo.toml` or `.rs` file exists, including an empty destination;
+set `AGENTS_TIER_OVERRIDE=rust` for that session.
 
-## Verify
+## Build and adapt
+
+The project gets `Cargo.toml` with the agreed lints, `rust-toolchain.toml`, `rustfmt.toml`, `clippy.toml`,
+`.gitattributes`, `.gitignore`, a Windows and Ubuntu CI workflow, and an `AGENTS.md`/`CLAUDE.md` pair. Templates
+live in `templates/` beside this file and ship with the skill. Change them there, then regenerate.
+
+## Validation and publication
 
 ```text
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --all-features -- -D warnings
 cargo test --workspace --all-features
 ```
-
-The tier gate blocks `rust:*` where no `Cargo.toml` or `.rs` file exists, including an empty destination;
-set `AGENTS_TIER_OVERRIDE=rust` for that session.
-
-Templates live in `templates/` beside this file and ship with the skill. Change them there, then regenerate.

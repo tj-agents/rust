@@ -3,7 +3,7 @@ name: style
 description: Tommy's agreed Rust style — naming, formatting, comments and lint policy. Read before writing or reviewing Rust that touches it; nothing applies until it is recorded here.
 kind: contract
 domain: rust
-profile: contract
+profile: core
 applicability: Rust projects
 requires: rust
 provenance: house

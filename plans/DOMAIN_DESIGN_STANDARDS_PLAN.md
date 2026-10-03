@@ -41,7 +41,7 @@ stacks.
   `.agents/base/contract/{domain-design,mixins,structure,style,testing}/SKILL.md`, the scaffold skills
   `.agents/{gpp,msvc,win32}/utility/scaffold/` with their scripts and templates, and the reasoning in
   `plans/cpp-design/CPP_DESIGN_STANDARDS_PLAN.md` and `CPP_NAMING_STANDARD_PLAN.md`.
-- .NET, in `~/source/repos/tj-agents/dotnet/.agents/contract/`: `ddd`, `value-semantics`, `keyed-unions`,
+- .NET, in `~/source/repos/tj-agents/dotnet/.agents/dotnet/contract/`: `ddd`, `value-semantics`, `keyed-unions`,
   `keyed-strategies`, `domain-events`, `result-carriers`, `result-errors`, `result-terminals`, `validation`,
   `module-structure`, `csharp-naming`, `dependency-injection`, `persistence`.
 - This repo: `rust:learning` (the convention procedure and teaching rules), `rust:direction` (the reference
@@ -123,7 +123,7 @@ stacks.
 Verdict: **carries** (same rule, Rust spelling), **changes** (Rust does it differently), **enforced** (the
 compiler or clippy already guarantees it, so the rule shrinks to a reminder or disappears), **n/a** (does not
 apply). `Q` is the open question in the list above that decides it. Sources: `cpp:` =
-`tj-agents/cpp/.agents/base/contract/<skill>`, `net:` = `tj-agents/dotnet/.agents/contract/<skill>`.
+`tj-agents/cpp/.agents/base/contract/<skill>`, `net:` = `tj-agents/dotnet/.agents/dotnet/contract/<skill>`.
 
 | # | Principle (source) | Rust form | Verdict | Q |
 |---|---|---|---|---|
