@@ -2,19 +2,5 @@
   "name": "rust-agents",
   "interface": {
     "displayName": "Rust"
-  },
-  "plugins": [
-    {
-      "name": "rust",
-      "source": {
-        "source": "local",
-        "path": "./plugins/rust"
-      },
-      "policy": {
-        "installation": "INSTALLED_BY_DEFAULT",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity"
-    }
-  ]
+  }
 }

@@ -11,5 +11,5 @@ provenance: house
 
 # Working with Tommy on Rust
 
-Read and follow the [canonical shared definition](../../../.agents/knowledge/learning/SKILL.md) in full.
+Read and follow the [canonical definition](../../../.agents/rust/knowledge/learning/SKILL.md) in full.
 This discovery entry is generated; edit the referenced `.agents/` definition.
