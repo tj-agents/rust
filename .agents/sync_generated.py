@@ -64,6 +64,20 @@ def split_tags(value: str) -> list[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
+def skill_resources(skill_dir: Path) -> dict[str, bytes]:
+    resources: dict[str, bytes] = {}
+    for path in sorted(skill_dir.rglob("*")):
+        relative = path.relative_to(skill_dir)
+        if path.is_symlink():
+            raise ValueError(f"{path}: skill resources must not be links")
+        if not path.is_file() or relative.as_posix() == "SKILL.md":
+            continue
+        if "__pycache__" in relative.parts or path.suffix == ".pyc":
+            continue
+        resources[relative.as_posix()] = path.read_bytes()
+    return resources
+
+
 def discover(root: Path, config: dict) -> dict[str, dict]:
     agents_root = root / config["scope"]["root"]
     found: dict[str, dict] = {}
@@ -90,6 +104,7 @@ def discover(root: Path, config: dict) -> dict[str, dict]:
                 "body": body,
                 "metadata": values,
                 "relative": path.relative_to(root).as_posix(),
+                "resources": skill_resources(path.parent),
             }
     if not found:
         raise ValueError("No canonical skills discovered")
@@ -216,6 +231,10 @@ def build(root: Path) -> tuple[dict[str, bytes], dict]:
             raise ValueError(f"Duplicate generated output: {key}")
         output[key] = data.encode("utf-8") if isinstance(data, str) else data
 
+    for skill_root in (*EXPECTED_HOST_ADAPTER_ROOTS.values(), "plugins/rust/skills"):
+        for skill in skills.values():
+            for relative, data in skill["resources"].items():
+                emit(f"{skill_root}/{skill['name']}/{relative}", data)
     for adapter_root in EXPECTED_HOST_ADAPTER_ROOTS.values():
         for skill in skills.values():
             emit(f"{adapter_root}/{skill['name']}/SKILL.md", adapter_body(skill, adapter_root))
