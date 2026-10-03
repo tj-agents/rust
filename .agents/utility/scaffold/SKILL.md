@@ -23,7 +23,7 @@ python -B <skill-directory>/scripts/new_rust_project.py --name my_tool --destina
 - The result is `<destination>/<name>`. The destination must exist and the project must not. `--dry-run` lists
   the files without writing. There is no overwrite mode and no `git init`.
 - Default: an application, an empty `src/lib.rs` and `fn main() {}` in `src/main.rs`, pinned to an exact
-  toolchain.
+  toolchain that rustup installs on first use.
 - `--lib --description "…"`: a library. It tracks `stable`, documents its crate root and enables
   `missing_docs`.
 - `--toolchain X.Y.Z` sets the version, otherwise the installed `rustc +stable`. Both kinds set `rust-version`

@@ -58,16 +58,18 @@ crates/
   the one Rust layer word; everything else is named for what it is. Source: Zero To Production; How To Code
   It hexarch.
 - Shared domain vocabulary is a domain module named for its concept (`domain::id`), never a `shared` or
-  `common` bucket. Source: house, by the rule above.
-- A module with children is `foo.rs` plus `foo/`, enforced by clippy `mod_module_files`. Source: the Book 7.5.
+  `common` bucket. Why: a bucket name says nothing about what it holds. Source: house, by the rule above.
+- A module with children is `foo.rs` plus `foo/`, enforced by clippy `mod_module_files`. Why: every file is
+  named for the module it holds. Source: the Book 7.5.
 - Items are private by default, `pub(crate)` for sharing inside the crate, `pub` only for exported API, with
   rustc `unreachable_pub = "warn"`. Why: `pub` then means exported. Source: Effective Rust Item 22; matklad.
 - An application gives each item one path, so it re-exports nothing. A library may `pub use` its API at the
   crate root and re-exports dependency types its API exposes. No glob imports except `use super::*` in test
-  modules. Source: rust-analyzer style guide; the Book 7.4; Effective Rust Items 23–24.
+  modules. Why: two paths to one item drift apart. Source: rust-analyzer style guide; the Book 7.4; Effective
+  Rust Items 23–24.
 - `main` (or one `run` function it calls) is the composition root: it reads input, configuration and the
   clock, constructs the adapters and passes them to the domain by reference or generic parameter. No
-  dependency-injection container. Source: How To Code It hexarch.
+  dependency-injection container. Why: the compiler checks the wiring. Source: How To Code It hexarch.
 - Adapters own their wire and row types and convert them into domain types with `TryFrom` or `From` at the
   edge; domain types derive no serde traits. Why: wire, storage and model evolve separately. Source: Zero To
   Production ch. 6; hexarch.
