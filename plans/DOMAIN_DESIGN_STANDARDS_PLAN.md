@@ -364,6 +364,11 @@ Tommy's decisions, recorded in the contract skills as they are made.
   item); libraries may `pub use` their API at the root and re-export dependency types they expose; no glob
   imports except `use super::*` in tests. `Id<T>` lives in `domain/id.rs`. Adapters own wire and row types
   and convert with `TryFrom`/`From`; domain types derive no serde traits. → `rust:structure`.
+- 2026-10-03, Q10 naming: the API Guidelines naming chapter whole (no `get_`). Clippy `all` + `pedantic` at
+  warn, allowing `must_use_candidate`, `missing_errors_doc`, `missing_panics_doc`, `similar_names`,
+  `too_many_lines`; warnings fail CI. Docs: libraries document every exported item (`missing_docs`);
+  applications only what needs it. → `rust:style`. Wiring: `main` is the composition root, no DI container.
+  → `rust:structure`.
 
 
 ## Completion
