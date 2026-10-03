@@ -203,6 +203,127 @@ Rust-only topics with no C++/.NET counterpart, to take to Tommy inside the quest
 domain types (prefer owned, Q1), the orphan rule for trait impls (Q6), and whether domain types derive serde
 traits or stay separate from DTOs (Q9).
 
+### Research: domain idioms (Q1–Q4, Q6), primary sources opened 2026-10-03
+
+- Newtypes and validation: API Guidelines C-NEWTYPE, C-CUSTOM-TYPE ("convey interpretation and invariants"
+  through a deliberate type), C-VALIDATE (static first, then `Result`/`Option`, opt-outs suffixed
+  `_unchecked`), C-STRUCT-PRIVATE (public fields only for "compound, passive data structures"). Effective Rust
+  Item 1 ("make invalid states inexpressible"), Item 6 (newtype), Item 22 ("Minimize visibility").
+- Construction: C-CTOR says `new` is the primary constructor, `from_*` may take extra arguments, secondary
+  ones are `with_foo`; it says nothing about fallible construction. Std's fallible primaries are `new`
+  returning `Option`/`Result` (`NonZero::new`, `CString::new`) or `from_*` returning `Result`
+  (`String::from_utf8`, `Layout::from_size_align`). `try_` marks a checked sibling of a panicking function
+  (`Duration::try_from_secs_f64`); `try_new` exists in std only as nightly `Box::try_new` (arrow and nutype
+  use it). `FromStr` is reached through `str::parse`.
+- Zero To Production ch. 6: `pub struct SubscriberName(String)` with `parse(String) -> Result`, exposed via
+  `AsRef<str>`; a later chapter adds `TryFrom<FormData>` that calls `parse`. How To Code It (newtypes guide):
+  the constructor is the source of truth; `TryFrom` is a thin call to it; treat `Deref` "like … disarming a
+  very small bomb".
+- Conversions (C-CONV-TRAITS, Effective Rust Item 5): implement `From`/`TryFrom`/`AsRef`, never `Into`.
+  `Deref` only for smart pointers (C-DEREF; rust-unofficial "Deref polymorphism" anti-pattern). nutype offers
+  a `Deref` derive, so this is not unanimous.
+- Common traits (C-COMMON-TRAITS, Effective Rust Item 10): implement std traits eagerly because of the orphan
+  rule; `Eq` with every `PartialEq`; derive `Debug` broadly.
+- Entities: std's `PartialEq` docs show identity equality (two books are the same if ISBNs match); `Hash` must
+  agree with `Eq`. How To Code It's hexarch derives full structural equality on `Author` with a raw `Uuid`
+  id. No authoritative Rust source mandates either.
+- Aggregates: the Book 18.1 `AveragedCollection` (private fields kept in sync by `&mut self` methods); Book
+  15.6 (a parent owns its children; back-references are `Weak`). How To Code It: a domain type holds "all
+  entities that must change together as part of a single, atomic operation", even across several SQL tables.
+- State: Cliffle "The Typestate Pattern in Rust" (state in the compile-time type, transitions consume `self`;
+  rustdoc gets "harder to follow"). The Book 18.3 shows the same trade-off. kornel (users.rust-lang.org):
+  run-time state needs an `enum`; doing both means "implementing everything almost twice".
+- Shared behaviour: Book 18.1 ("If a language must have inheritance to be object oriented, then Rust is not
+  such a language"; reuse via default trait methods). Effective Rust Item 12 (prefer generics to trait
+  objects), Item 13 (default methods: minimal implementor surface, rich user surface). RFC 445: extension
+  traits are named `FooExt`. C-SEALED: a private `Sealed` supertrait stops downstream impls.
+
+### Research: errors, events and ports (Q5, Q7, Q8), primary sources opened 2026-10-03
+
+- Error granularity: Sabrina Jewson, "Modular Errors in Rust" (2023): "error types should be located near to
+  their unit of fallibility", which is the operation; a crate-wide enum loses context and "ties the crate
+  together in a big knot"; verbosity is the main cost. Std has both: per-operation `ParseIntError`,
+  `FromUtf8Error`; module-wide `io::Error` with a `kind()`. Palmieri ("Error Handling In Rust – A Deep
+  Dive"): use an enum if the caller behaves differently per failure, otherwise an opaque error; avoid "Ball
+  Of Mud" enums; log errors where they are handled.
+- thiserror (2.0.21) and anyhow (1.0.104) READMEs: thiserror when you design the error type the caller
+  receives ("most often … library-like code"), anyhow when you don't care which error a function returns
+  ("application-like code"). Thiserror "does not appear in your public API".
+- C-GOOD-ERR: implement `std::error::Error`, `Send` and `Sync`; `Display` "lowercase without trailing
+  punctuation, and typically concise".
+- Crossing layers: `?` applies `From` (Effective Rust Items 3, 4). thiserror `#[from]` implies `#[source]`
+  and allows no other fields. Jewson: don't implement `From<io::Error>` because it "would implicitly add
+  meaning"; wrap with `map_err` into a context-carrying variant.
+- Panic vs Result (Book 9.3): `Result` is the default for anything that can fail; panic on a contract
+  violation, which "always indicates a caller-side bug"; the `Guess` newtype puts validation in the
+  constructor.
+- Domain events: cqrs-es (`Aggregate::handle` emits events, `apply` mutates; ~25k recent downloads),
+  disintegrate and fmodel-rust are event-sourcing crates and niche. Chassaing's Decider (`decide(command,
+  state) -> events`, `evolve(state, event) -> state`) works without event sourcing; fmodel-rust has a
+  state-stored aggregate. No verifiable Rust precedent for the .NET shape (the entity collects events and an
+  ORM hook dispatches them on save); nothing in Rust would run that hook.
+- Ports: Effective Rust Item 12 and Book 18.2 prefer generics; `dyn` for heterogeneous collections or type
+  erasure. How To Code It hexarch: ports are traits in `domain/<area>/ports.rs`, used as generics bounded
+  `Send + Sync + Clone + 'static`; one error type per operation with an `Unknown(anyhow::Error)` catch-all;
+  "Apps that don't have any business logic don't need ports and adapters"; it slows you down when you can
+  keep the codebase in your head. faux: single-implementation traits are "an undue burden"; mockall can mock
+  structs. matklad, "How to Test": think in data, "let the caller do input and output, and let the callee do
+  compute".
+- Async traits: `async fn` in traits is stable since 1.75 but not dyn-compatible; a 2026 project goal has only
+  a nightly preview. Generic async ports work natively; `Arc<dyn Port>` still needs `async-trait` or boxing.
+
+### Research: structure, naming and tooling (Q9–Q11), primary sources opened 2026-10-03
+
+- Clippy groups (clippy source and CHANGELOG): `module_name_repetitions` moved from pedantic to
+  **restriction** in Rust 1.84, so it must be enabled by name. `mod_module_files` (bans `mod.rs`) and
+  `self_named_module_files` (bans `foo.rs` + `foo/`) are restriction; cargo enforces `mod.rs` with the
+  latter. `inline_modules` (restriction, 1.97) bans inline `mod x {}` except `#[cfg(test)]`.
+  `module_inception` is style. Pedantic: `must_use_candidate`, `missing_errors_doc`, `missing_panics_doc`,
+  `wildcard_imports`, `enum_glob_use`. `redundant_pub_crate` (nursery) conflicts with rustc's allow-by-default
+  `unreachable_pub` (clippy #5369 open).
+- Pedantic adoption: ruff and uv enable `pedantic` at warn with an allow-list (`missing_errors_doc`,
+  `missing_panics_doc`, `must_use_candidate`, `similar_names`, `too_many_lines`, `match_same_arms`,
+  `map_unwrap_or`, …) and warn on `unreachable_pub`. cargo, rust-analyzer, ripgrep, nushell, helix, zed,
+  bevy and tokio do not enable the group (bevy cherry-picks; rust-analyzer and tokio warn on
+  `unreachable_pub`).
+- Naming (API Guidelines): C-CASE (acronyms are one word: `Uuid`); C-CONV (`as_` free borrow, `to_`
+  expensive, `into_` consumes; wrappers expose `into_inner`); C-GETTER (no `get_` prefix; `get` only when
+  one obvious thing is gotten); C-ITER; C-WORD-ORDER (`ParseAddrError`, verb-object-error, consistency
+  matters more than the order); C-CTOR (`new` primary, `with_*` secondary, `from_*` conversion; `new` and
+  `Default` must agree).
+- Visibility: Effective Rust Item 22 (as little as possible; `pub(crate)` for crate-wide helpers), Item 23
+  (avoid wildcard imports except `use super::*` in tests), Item 24 (re-export dependencies in your API).
+  matklad recommends `unreachable_pub` so that `pub` means exported API. rust-analyzer's style guide: avoid
+  re-exports in non-library code ("two ways to use something") and local `use MyEnum::*`.
+- Module namespacing: RFC 356 ("items exported from a module should *never* be prefixed with that module
+  name… `io::Error`"). The Book 7.4 idiom: import a function's parent module, import structs and enums by
+  full path unless names collide (`fmt::Result`), and "There's no strong reason behind this idiom".
+  rust-analyzer qualifies layer items (`hir::`, `ast::`) to make the layer clear.
+- Tooling: stable is **1.99.0** (2026-10-01); local toolchain is 1.97.1. Edition 2024 is the default for
+  `cargo new`; resolver `"3"` is its default (MSRV-aware) and must be explicit in a virtual workspace.
+  `[lints]`/`[workspace.lints]` since 1.74. `build.warnings`/`CARGO_BUILD_WARNINGS=deny` since 1.97 (ruff CI
+  uses it). Applications pin an exact toolchain (ruff, uv 1.99.0; zed 1.98.1); libraries such as tokio and
+  bevy don't. `rust-version` is the MSRV. `cargo new` makes a bin, `git init`s, `.gitignore` = `/target`.
+  `tests/it/main.rs` needs no Cargo config. CI: `dtolnay/rust-toolchain`, `Swatinem/rust-cache@v2`.
+- Layer folders: hexarch (`3-simple-service` branch) uses `src/lib/{domain,inbound,outbound}` with
+  `domain/blog/{models,ports,service}` and the `foo.rs` + `foo/` style. `mod domain;` is common (~15k code
+  hits), `application` (~7.8k, often GTK's `Application`) and `infrastructure` (~3.8k) much less; none of
+  the notable projects above use these layer names.
+
+## Decisions
+
+Tommy's decisions, recorded in the contract skills as they are made.
+
+- 2026-10-03, Q1 value objects: construction `new -> Result` by default, a verb that names the work when
+  apt (`parse`, `decode`, `open`), `FromStr`/`TryFrom` only as thin wrappers; read through a named getter
+  (`as_str`, `get`, `into_inner`, `AsRef` where generic code needs it), never `Deref`; derive the eager set
+  `Debug, Clone, PartialEq, Eq, Hash`, plus `Copy` when small and heap-free, `PartialOrd, Ord` only for a
+  meaningful order, `Default` only for a meaningful default. → `rust:domain-design`.
+- 2026-10-03, Q2 entities: private fields, `id()` getter, no `PartialEq` on the entity; compare IDs
+  explicitly. IDs: Tommy challenged a newtype per entity ("surely define a struct of a reusable id"), so one
+  generic `Id<T>` (`u64` + `PhantomData<fn() -> T>`, hand-written trait impls), entity holds `Id<Self>`.
+  Where `Id<T>` lives is a Q9 structure decision. → `rust:domain-design`.
+
 ## Completion
 
 Done when the mapping table and findings are recorded here; every question above is decided by Tommy or
