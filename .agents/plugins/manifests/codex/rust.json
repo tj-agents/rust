@@ -1,6 +1,6 @@
 {
   "name": "rust",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tommy's Rust learning companion and the Rust standards he grows from his own projects.",
   "author": {
     "name": "Tommy Seery"

@@ -29,6 +29,9 @@ src/
       service.rs  # the area's use cases
   cli.rs          # adapters, each named for what it adapts
   sqlite.rs
+tests/
+  it/
+    main.rs       # the one integration-test binary (rust:testing)
 ```
 
 Split for a concrete reason, the package becomes a workspace:

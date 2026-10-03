@@ -1,0 +1,25 @@
+[package]
+name = "__NAME__"
+version = "0.1.0"
+edition = "2024"
+rust-version = "__RUST_VERSION__"
+description = "__DESCRIPTION__"
+
+[dependencies]
+
+[lints.rust]
+unsafe_code = "forbid"
+unreachable_pub = "warn"
+__LIB__missing_docs = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+must_use_candidate = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+similar_names = "allow"
+too_many_lines = "allow"
+unwrap_used = "deny"
+mod_module_files = "warn"
+module_name_repetitions = "warn"

@@ -9,8 +9,10 @@ Knowledge tier, Tommy's personal Rust guide:
 - `rust:knowledge` — what Tommy has proven he knows in Rust.
 - `rust:direction` — the goal, the skill tree and the references.
 
-Contract tier, empty until a decision is recorded: `rust:style`, `rust:structure`, `rust:domain-design`,
-`rust:errors`, `rust:testing`, `rust:build` and `rust:libraries`.
+Contract tier, each rule recorded only after Tommy decides it: `rust:style`, `rust:structure`,
+`rust:domain-design`, `rust:errors`, `rust:testing`, `rust:build` and `rust:libraries`.
+
+Utility: `rust:scaffold` creates a new package in the agreed layout.
 
 The tier applies only where a `Cargo.toml` or `.rs` file is present (`tier.json` `applies: stack-present`).
 
