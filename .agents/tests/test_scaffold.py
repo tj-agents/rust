@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import importlib.util
 import io
+import os
 from pathlib import Path
 import re
 import shutil
@@ -101,7 +102,9 @@ class ScaffoldTests(unittest.TestCase):
                     ["cargo", "clippy", "--workspace", "--all-targets", "--all-features", "--", "-D", "warnings"],
                     ["cargo", "test", "--workspace", "--all-features"],
                 ):
-                    result = subprocess.run(command, cwd=root / name, capture_output=True, text=True)
+                    result = subprocess.run(
+                        command, cwd=root / name, capture_output=True, text=True, env=os.environ | {"RUSTUP_TOOLCHAIN": "stable"}
+                    )
                     self.assertEqual(0, result.returncode, f"{name}: {' '.join(command)}\n{result.stderr}")
 
 

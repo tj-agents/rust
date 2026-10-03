@@ -1,6 +1,6 @@
 # Rust domain design, structure and scaffold standards
 
-Status: handed off 2026-10-03, not started.
+Status: decisions recorded and scaffold built 2026-10-03; review and push remaining.
 
 ## Objective
 
@@ -391,8 +391,46 @@ candidate decisions the new rules settle, so the Termboard owner can apply them.
 - 2026-10-03: picked up by the launched session. The handoff prompt file was gone from its temp path, so this
   plan is the canonical goal. Read every input; mapping table recorded under Findings. Primary-source research
   running in three parallel threads (domain idioms; errors, events and ports; structure, naming and tooling).
+- 2026-10-03: research recorded under Findings. All eleven questions decided by Tommy (see Decisions) and
+  recorded in `rust:domain-design`, `rust:errors`, `rust:structure` (with `## File structure`), `rust:style`,
+  `rust:testing` and `rust:build`; `rust:libraries` gained no rule (no question covered it). The generator
+  ships skill-local files (e10291b). `rust:scaffold` built (b5ecc0b): both kinds generated in the scratchpad
+  pass `cargo fmt --all --check`, `cargo clippy --workspace --all-targets --all-features -- -D warnings` and
+  `cargo test --workspace --all-features` on 1.97.1; a probe confirmed `mod_module_files`,
+  `module_name_repetitions` and `unwrap_used` fire. Checks green: `sync-generated.ps1 -Check` (77 files, 11
+  definitions), 17 unit tests including the cargo gate, core's `check_tier_payload.py`. Codex manifest 0.2.0.
+- 2026-10-03: the kit-retrofit session (STANDARDS_RETROFIT_PLAN.md) asked about rust; agreed that it takes
+  rust's kit retrofit after this plan pushes and releases ownership.
+
+- 2026-10-03: independent reviews of 6984163..b5ecc0b. Docs: one flag that `mod_module_files` enforces
+  `mod.rs`, refuted by the probe (it rejected `src/card/mod.rs`); four `rust:structure` rules lacked a why,
+  now added. Code: the cargo-gate test inherited the application's exact pin and could make rustup download a
+  toolchain; the test now runs with `RUSTUP_TOOLCHAIN=stable`. The exact pin itself is Tommy's decision and
+  stays. 17 tests, generator check and payload check green.
+
+## Termboard follow-through
+
+Candidate decisions in `termboard/plans/ROADMAP.md` that the new rules settle, for the Termboard owner:
+
+- Namespacing: settled as proposed (`card::Title`, `card::Status`, errors per operation such as
+  `card::FinishError`, `card::Card` allowed, clippy `module_name_repetitions`), except the main type is **not**
+  re-exported: an application gives each item one path (`rust:structure`).
+- Clippy pedantic: on at warn with the allow-list in `rust:style`, plus `unwrap_used` deny,
+  `mod_module_files`, `module_name_repetitions` and rustc `unreachable_pub`.
+- Layout: collapse the three layer crates into one package (`lib.rs` + thin `main.rs`) with a `domain` module
+  and adapters named for what they adapt; split later by subsystem into flat `crates/<name>/` only for a
+  concrete reason (`rust:structure`).
+- Skeleton deltas against `rust:scaffold`: lints above; CI gains `Swatinem/rust-cache@v2` and `--workspace
+  --all-features` test flags; `clippy.toml` with `allow-unwrap-in-tests`; `rustfmt.toml` keeps only
+  `newline_style = "Unix"`; the Build/Test scripts are not part of the standard.
+
+## Out-of-scope findings
+
+- The base tier gate blocks a stack's scaffold where the stack is absent, which is exactly where a new
+  project is created (`rust:scaffold`, and `gpp:scaffold`/`msvc:scaffold` in the same way). Owner: base's
+  `tier_gate.py` or kit's standard for where `scaffold` lives. Resolved when invoking a stack's scaffold from
+  an empty directory needs no `AGENTS_TIER_OVERRIDE`. `rust:scaffold` documents the override meanwhile.
 
 ## Next Steps
 
-1. Read this plan and every input listed above.
-2. Do steps 1–3 of the Method, then start step 4 with Tommy.
+1. Push `main` to `tj-agents/rust`, then message the kit-retrofit session that ownership is released.
