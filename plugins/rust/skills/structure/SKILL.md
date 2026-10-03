@@ -62,6 +62,9 @@ crates/
 - An application gives each item one path, so it re-exports nothing. A library may `pub use` its API at the
   crate root and re-exports dependency types its API exposes. No glob imports except `use super::*` in test
   modules. Source: rust-analyzer style guide; the Book 7.4; Effective Rust Items 23–24.
+- `main` (or one `run` function it calls) is the composition root: it reads input, configuration and the
+  clock, constructs the adapters and passes them to the domain by reference or generic parameter. No
+  dependency-injection container. Source: How To Code It hexarch.
 - Adapters own their wire and row types and convert them into domain types with `TryFrom` or `From` at the
   edge; domain types derive no serde traits. Why: wire, storage and model evolve separately. Source: Zero To
   Production ch. 6; hexarch.
