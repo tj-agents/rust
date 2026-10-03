@@ -116,6 +116,93 @@ stacks.
    "test_*.py"`, and `python -B ../core/.agents/hooks/check_tier_payload.py --root .`. Commit and push to
    `main`. Update Progress below at each boundary.
 
+## Findings
+
+### Mapping table: C++ and .NET principles to Rust
+
+Verdict: **carries** (same rule, Rust spelling), **changes** (Rust does it differently), **enforced** (the
+compiler or clippy already guarantees it, so the rule shrinks to a reminder or disappears), **n/a** (does not
+apply). `Q` is the open question in the list above that decides it. Sources: `cpp:` =
+`tj-agents/cpp/.agents/base/contract/<skill>`, `net:` = `tj-agents/dotnet/.agents/contract/<skill>`.
+
+| # | Principle (source) | Rust form | Verdict | Q |
+|---|---|---|---|---|
+| 1 | No domain layer just because the skill loaded; start from the problem's vocabulary (cpp:domain-design) | Same | carries | 9 |
+| 2 | Passive record (public fields) vs invariant-bearing value (controlled construction) vs entity vs stateful adapter (cpp:domain-design) | pub-field struct; private-field struct or tuple newtype with a fallible associated fn; entity struct with an ID; adapter owning a resource with `Drop` | changes: no `struct`/`class` split, visibility is per field | 1 |
+| 3 | Privacy protects an invariant at the type (cpp, C#) | Privacy is per **module**: any code in the same module can touch private fields, so the invariant holds only against code outside it | changes | 1, 9 |
+| 4 | A value stays valid through construction, assignment and moves; specify a moved-from state (cpp:domain-design) | Moves are bitwise and the source becomes unusable; no moved-from state exists | enforced | — |
+| 5 | Validation doesn't turn a record into a valid value (cpp:domain-design) | "Parse, don't validate": parse the raw input into a different, valid type | carries, stronger | 1 |
+| 6 | DDD roles are vocabulary, not base classes, suffixes or folders (cpp:domain-design, net:ddd) | Same; Rust has no inheritance to tempt it | carries | — |
+| 7 | Entity equality means same identity; don't default all-field equality without deciding (cpp:domain-design, net:ddd) | `#[derive(PartialEq)]` is all-field; decide whether an entity derives it, compares by ID, or has neither | carries | 2 |
+| 8 | Aggregate = consistency boundary; children reached only through the root (net:ddd) | Owned children in private fields, `&mut self` operations; the borrow checker stops outside references | carries, partly enforced | 3 |
+| 9 | Reference another aggregate by its ID, never a navigation property (net:ddd, net:module-structure) | ID newtypes; shared object graphs (`Rc<RefCell<_>>`) are unidiomatic, so ID references are the natural form | carries | 2, 3 |
+| 10 | Put an invariant on the aggregate that owns every field it constrains; anemic model and God aggregate are anti-patterns (net:ddd) | Same | carries | 3 |
+| 11 | Operations live with their owning type: instance methods and type-owned static functions; free functions for peer algorithms (cpp:domain-design house choice, net:csharp-naming evaluators) | Inherent `impl` methods and associated functions (`Title::parse`); free functions in the concept's module for peer algorithms | carries | 1, 6 |
+| 12 | Validation and decoding sit on the type with its errors beside it; no generic `validation`/`errors` module (cpp:domain-design) | `Title::parse` / `FromStr` / `TryFrom` in the type's module; `TitleError` in the same module | carries | 1, 5 |
+| 13 | Returned value owns its data unless the API promises a view with a documented lifetime (cpp:domain-design) | Owned vs borrowed is explicit (`String` vs `&'a str`) and lifetime-checked | enforced | 1 |
+| 14 | Expose a separate `validate` only when callers need it (cpp:domain-design) | Same | carries | 1 |
+| 15 | Binary/ABI records get size and offset assertions (cpp:domain-design, cpp:style) | `#[repr(C)]` plus `const _: () = assert!(size_of::<T>() == N)`; only FFI or wire work | n/a for generic standards | — |
+| 16 | Fallible construction: `create`, or a specific verb `parse`/`decode`/`open`; no two-stage init or public default (cpp:domain-design) | No constructors; `new` is the convention for the primary one; fallible spellings `new -> Result`, `parse`, `try_new`, `TryFrom`, `FromStr`; `Default` only when derived or implemented | changes | 1, 10 |
+| 17 | Immutable transformations named for meaning; `with_x` optional (cpp:domain-design) | Methods taking `self` or `&self` and returning a new value; `with_*` in Rust usually means a constructor variant (`Vec::with_capacity`) | changes | 10 |
+| 18 | Mutable values are allowed; avoid `const` members (cpp:domain-design); value objects replaced, not mutated (net:ddd) | Mutability is per binding and per borrow (`let mut`, `&mut self`), not per type | changes, simpler | 1 |
+| 19 | Decisions separate from effects; read the clock at the boundary and pass the instant in; an entity never holds a clock (cpp:domain-design, net:module-structure) | Same: pass `now` as a value | carries | 8 |
+| 20 | Coarse boundaries; no service class per function or interface for a trivial operation (cpp:domain-design) | A trait only when it earns its place | carries | 8 |
+| 21 | Expected failure is a typed result; closed enum or small struct error; never `bool`, strings or asserts (cpp:domain-design, net:result-carriers) | `Result<T, E>`, error enum or struct | carries, native | 5 |
+| 22 | Smallest truthful carrier: Result, unit Result, Option, `Result<Option<T>, E>`, empty collection for none, set for uniqueness, `bool` only for predicates (net:result-carriers) | `Result<T, E>`, `Result<(), E>`, `Option<T>`, `Result<Option<T>, E>`, `Vec`, `HashSet`/`BTreeSet`, `bool` | carries, native | 5 |
+| 23 | Programmer errors and violated invariants stay exceptions (net:result-carriers); `expected` doesn't make a call non-throwing (cpp:domain-design) | `panic!` for bugs; panics still possible inside `Result`-returning code | changes | 5 |
+| 24 | Never introduce another Result/Option library (net:result-carriers) | std `Result`/`Option` only | carries | 5 |
+| 25 | Result/Option never in wire, persistence or event DTOs (net:result-carriers) | `Option<T>` is the idiomatic optional field in a serde DTO; `Result` stays out | changes | 9 |
+| 26 | Every error type is a closed operation-owned union; every outcome a named case; no shared catalog (net:result-errors) | Error enum per operation vs one per module or crate | carries or changes | 5 |
+| 27 | Error placed beside its operation at its widest caller (net:result-errors) | Same | carries | 5 |
+| 28 | Exhaustive switch, no discard arm (net:result-errors, net:keyed-unions) | `match` is exhaustive; avoid `_` on your own enums (clippy `wildcard_enum_match_arm`, restriction) | enforced | 4 |
+| 29 | Never discard a returned result (net:result-carriers) | `Result` is `#[must_use]`; rustc warns | enforced | — |
+| 30 | Case name agrees with its semantic kind (net:result-errors) | Same | carries | 5 |
+| 31 | Validation accumulates independent field errors, then fail-fast (net:validation) | `?` is fail-fast; accumulation is a hand-collected `Vec` or a crate | changes | 5 |
+| 32 | Map validation into the operation's own error, once (net:validation) | `map_err` or a `From` impl at the owning boundary | carries | 5 |
+| 33 | Keyed union when variants differ in signature; strategy when they share one interface (net:keyed-unions, net:keyed-strategies) | Data-carrying `enum` vs a trait with several impls | carries, native | 4, 6 |
+| 34 | Arms carry real payloads: no marker arms, no nullable stand-ins, no parameter object unifying arms (net:keyed-unions) | Same | carries | 4 |
+| 35 | Adding a key fails composition, not production (net:keyed-unions) | Exhaustive `match` fails compilation | enforced | 4 |
+| 36 | Data every case carries lives outside the union (net:keyed-unions) | A struct with common fields plus a `kind` enum | carries | 4 |
+| 37 | Factory, resolver, keyed DI registration, no service location (net:keyed-strategies) | No DI container | n/a | 8 |
+| 38 | Raise domain events on the entity; save dispatches them pre/post commit (net:domain-events) | No ORM interceptor; return events from the method, or not at all | changes or n/a | 7 |
+| 39 | Mixins only for mechanical composition; prefer members and free functions (cpp:mixins) | No inheritance; traits with default methods, blanket impls, composition through fields | changes | 6 |
+| 40 | Name the behaviour, not the mechanism; `-able` selectively (cpp:mixins, net:csharp-naming) | Trait names are capabilities (`Read`, `Display`, `Iterator`) | carries | 6, 10 |
+| 41 | No mechanism-named folders (`mixins/`) (cpp:mixins) | No `traits/` folder | carries | 9 |
+| 42 | `detail/` marks unsupported API but isn't access control (cpp:mixins) | Real access control (`pub(crate)`, private modules); `#[doc(hidden)]` for semver-exempt public items | changes | 9 |
+| 43 | Contain macros (cpp:mixins) | `macro_rules!` scoping | n/a | — |
+| 44 | Thin `app/`, logic in libraries (cpp:structure) | Thin `main.rs`, logic in `lib.rs` | carries | 9 |
+| 45 | A single library stays at the root; `libs/<name>/` only for several (cpp:structure) | One package at the root; `crates/<name>/` only for several | carries | 9 |
+| 46 | New library target when it gives a cohesive API, dependency control or independent testing; no empty directories (cpp:structure) | New crate for compile parallelism, dependency isolation, separate publishing or proc-macros | carries, Rust reasons | 9 |
+| 47 | Preserve product boundaries (`client/`, `driver/`, `shared/`) (cpp:structure) | Workspace members | carries | 9 |
+| 48 | A `domain` folder only when a distinct model needs that boundary (cpp:structure) | Same | carries | 9 |
+| 49 | Folders and namespaces need not mirror each other (cpp:structure, cpp:style) | The module tree **is** the file tree; `pub use` re-exports let the public paths differ | changes | 9 |
+| 50 | Layers Contracts/Domain/Application/Infrastructure/Api, arrows inward (net:module-structure) | Modules in one crate (convention only) or crates (compiler-enforced, but serial builds) | changes | 9 |
+| 51 | Visibility cascade: public contracts, internal elsewhere, `InternalsVisibleTo` for tests (net:module-structure) | `pub`, `pub(crate)`, private; an in-file `#[cfg(test)]` module sees private items | changes | 9 |
+| 52 | No cross-module queries; talk through a facade or event; primitive foreign keys (net:module-structure) | Same between subsystems | carries | 9 |
+| 53 | Preserve the repository's established shape (cpp:structure) | Same | carries | 9 |
+| 54 | Snake/Pascal case; trailing underscore on private members (cpp:style) | rustc enforces `snake_case`, `UpperCamelCase`, `SCREAMING_SNAKE_CASE`; no field prefix | enforced | 10 |
+| 55 | Semantic type names; no `Record`/`Data`/`Info`/`Model`/`Fact` suffixes (cpp:style, net:csharp-naming) | Same | carries | 10 |
+| 56 | Same concept keeps the same word; suffix from the type's shape (net:csharp-naming) | Same; `Builder` is idiomatic Rust (C-BUILDER); `Helper`/`Utility` disappear into module functions | carries | 10 |
+| 57 | Interface and implementation share a name apart from `I` (net:csharp-naming) | No `I` prefix: trait for the capability (`CardStore`), impl for what it is (`SqliteCardStore`) | changes | 8, 10 |
+| 58 | Type-to-type mapping in an `XMappers` class (net:csharp-naming) | `impl From<Row> for Card` | changes | 9 |
+| 59 | Receiver-owned behaviour is an extension; peer decisions a named evaluator (net:csharp-naming) | Inherent method, or an extension trait (`FooExt`) on a foreign type; free function for peers | carries | 6 |
+| 60 | Project namespace, nested only for meaningful boundaries; don't repeat the namespace in names (cpp:style) | Module-qualified names (`card::Title`, as `io::Error`); `module_name_repetitions` | carries | 9, 10 |
+| 61 | Named constants at the narrowest boundary (cpp:style) | `const` in a fn, an `impl` or a module | carries | 10 |
+| 62 | `{}` initialisation, brace omission, anonymous namespaces, `std::uintN_t` (cpp:style) | Not applicable or rustc-enforced | n/a | — |
+| 63 | `///` API docs on public items; don't restate names (cpp:style) | rustdoc `///` and `//!`; `# Errors` and `# Panics` sections (clippy pedantic checks them) | carries | 10 |
+| 64 | Lint triage: fix, or disable with a reason; the compiler wins (cpp:style) | `#[expect(clippy::x, reason = "…")]`; workspace `[lints]` | carries | 11 |
+| 65 | Test the real target; no parallel copy of sources; no test-only production APIs (cpp:testing) | `#[cfg(test)] mod tests` beside the code has private access; `tests/` uses the public API | changes | testing |
+| 66 | Honest tiers: unit tests touch no fs, network or process (cpp:testing) | Same | carries | testing |
+| 67 | Inject interfaces; register in the composition root; no service locator (net:dependency-injection) | Wiring in `main` (or one `app` function); generics or `Box<dyn>`/`Arc<dyn>`; no container | changes | 8 |
+| 68 | Third-party SDKs behind an adapter (net:dependency-injection) | Same | carries | 8 |
+| 69 | Repository per entity; never leak `IQueryable`; unit of work, EF contexts (net:persistence) | A repository returns domain types, never rows or query builders; the rest is EF-specific | mostly n/a | 8 |
+| 70 | One shared result carrier and error union contract test per union (net:result-errors) | Unit test over each error's `Display`/variant mapping where it is a contract | changes | testing |
+
+Rust-only topics with no C++/.NET counterpart, to take to Tommy inside the questions above: `Copy` vs `Clone`
+(Q1), `#[non_exhaustive]` (Q5, for published crates only), `#[must_use]` on pure functions (Q10), lifetimes in
+domain types (prefer owned, Q1), the orphan rule for trait impls (Q6), and whether domain types derive serde
+traits or stay separate from DTOs (Q9).
+
 ## Completion
 
 Done when the mapping table and findings are recorded here; every question above is decided by Tommy or
@@ -127,6 +214,9 @@ candidate decisions the new rules settle, so the Termboard owner can apply them.
 
 - 2026-10-03: plan written and handed off. Launched on `claude-opus-5-5`, chosen by Tommy (the lane
   ladder would put this design work at L1).
+- 2026-10-03: picked up by the launched session. The handoff prompt file was gone from its temp path, so this
+  plan is the canonical goal. Read every input; mapping table recorded under Findings. Primary-source research
+  running in three parallel threads (domain idioms; errors, events and ports; structure, naming and tooling).
 
 ## Next Steps
 
