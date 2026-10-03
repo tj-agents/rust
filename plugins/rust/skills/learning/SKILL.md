@@ -14,7 +14,7 @@ provenance: house
 `rust:knowledge` records what he has proven he knows; `rust:direction` records where he is headed and the
 references to teach from. Read both before teaching or handing over work.
 
-## Two modes — always offer the choice
+## Two modes
 
 - **Learning mode (default).** Tommy writes the project code: logic, API and tests. You explain in chat,
   review what he writes and unblock him. Write code yourself only when he asks.
@@ -52,7 +52,7 @@ references to teach from. Read both before teaching or handing over work.
   ✅ means fluent.
 - If he says he is struggling with something, demote it to 🟡.
 - Delivery mode never updates `rust:knowledge`.
-- To update: edit `.agents/knowledge/knowledge/SKILL.md` in `~/source/repos/tj-agents/rust`, run
+- To update: edit `.agents/rust/knowledge/knowledge/SKILL.md` in `~/source/repos/tj-agents/rust`, run
   `pwsh .agents/sync-generated.ps1`, then commit and push to `main`.
 
 ## Agreeing a convention

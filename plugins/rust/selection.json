@@ -1,12 +1,8 @@
 {
   "plugin": "rust",
+  "dependencies": [],
   "profiles": {
-    "knowledge": [
-      "direction",
-      "knowledge",
-      "learning"
-    ],
-    "contract": [
+    "core": [
       "build",
       "domain-design",
       "errors",
@@ -15,15 +11,21 @@
       "style",
       "testing"
     ],
-    "utility": [
+    "knowledge": [
+      "direction",
+      "knowledge",
+      "learning"
+    ],
+    "scaffold": [
       "scaffold"
     ]
   },
+  "compatibilitySkillAliases": {},
   "skills": [
     {
       "name": "build",
       "kind": "contract",
-      "profile": "contract",
+      "profile": "core",
       "applicability": [
         "Rust projects"
       ],
@@ -51,7 +53,7 @@
     {
       "name": "domain-design",
       "kind": "contract",
-      "profile": "contract",
+      "profile": "core",
       "applicability": [
         "Rust projects"
       ],
@@ -65,7 +67,7 @@
     {
       "name": "errors",
       "kind": "contract",
-      "profile": "contract",
+      "profile": "core",
       "applicability": [
         "Rust projects"
       ],
@@ -107,7 +109,7 @@
     {
       "name": "libraries",
       "kind": "contract",
-      "profile": "contract",
+      "profile": "core",
       "applicability": [
         "Rust projects"
       ],
@@ -121,7 +123,7 @@
     {
       "name": "scaffold",
       "kind": "utility",
-      "profile": "utility",
+      "profile": "scaffold",
       "applicability": [
         "new Rust projects"
       ],
@@ -135,7 +137,7 @@
     {
       "name": "structure",
       "kind": "contract",
-      "profile": "contract",
+      "profile": "core",
       "applicability": [
         "Rust projects"
       ],
@@ -149,7 +151,7 @@
     {
       "name": "style",
       "kind": "contract",
-      "profile": "contract",
+      "profile": "core",
       "applicability": [
         "Rust projects"
       ],
@@ -163,7 +165,7 @@
     {
       "name": "testing",
       "kind": "contract",
-      "profile": "contract",
+      "profile": "core",
       "applicability": [
         "Rust projects"
       ],

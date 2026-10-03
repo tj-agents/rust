@@ -12,7 +12,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPT = ROOT / ".agents/utility/scaffold/scripts/new_rust_project.py"
+SCRIPT = ROOT / ".agents/rust/utility/scaffold/scripts/new_rust_project.py"
 SPEC = importlib.util.spec_from_file_location("new_rust_project", SCRIPT)
 scaffold = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(scaffold)

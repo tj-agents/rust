@@ -11,5 +11,5 @@ provenance: house
 
 # Where Tommy is headed with Rust
 
-Read and follow the [canonical shared definition](../../../.agents/knowledge/direction/SKILL.md) in full.
+Read and follow the [canonical definition](../../../.agents/rust/knowledge/direction/SKILL.md) in full.
 This discovery entry is generated; edit the referenced `.agents/` definition.
