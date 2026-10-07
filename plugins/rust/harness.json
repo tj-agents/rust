@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "plugin": "rust-agents/rust",
+  "source_roots": [
+    ".agents/rust"
+  ],
+  "requires": {
+    "marketplaces": [
+      {
+        "id": "rust-agents",
+        "repository": "tj-agents/rust"
+      }
+    ],
+    "plugins": [
+      "rust-agents/rust"
+    ],
+    "hooks": [],
+    "permissions": {
+      "claude_allow": [],
+      "codex_prefix_rules": []
+    }
+  }
+}
