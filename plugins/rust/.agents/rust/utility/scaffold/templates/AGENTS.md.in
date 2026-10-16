@@ -1,0 +1,11 @@
+# __NAME__
+
+__DESCRIPTION__
+
+Rust __KIND__, edition 2024, toolchain `__CHANNEL__`. The `rust:*` standards apply.
+
+```text
+cargo fmt --all --check
+cargo clippy --workspace --all-targets --all-features -- -D warnings
+cargo test --workspace --all-features
+```
