@@ -1,6 +1,10 @@
 {
   "plugin": "rust",
-  "dependencies": [],
+  "dependencies": [
+    "tj-agents/base",
+    "tj-agents/engineering",
+    "tj-agents/machine"
+  ],
   "profiles": {
     "core": [
       "build",

@@ -11,8 +11,5 @@ provenance: house
 
 # Rust libraries
 
-Owns when to take a dependency and which crates are chosen for which job.
-
-## Agreed
-
-_Nothing yet._ Propose a rule through `rust:learning`'s convention procedure.
+Read and follow the [canonical definition](../../.agents/rust/contract/libraries/SKILL.md) in full.
+This discovery entry is generated; edit the referenced `.agents/` definition.

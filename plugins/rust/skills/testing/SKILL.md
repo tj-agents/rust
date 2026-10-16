@@ -11,10 +11,5 @@ provenance: house
 
 # Rust testing
 
-Owns unit and integration tests, their naming and layout, and fixtures.
-
-## Agreed
-
-- Unit tests sit in a `#[cfg(test)] mod tests` at the bottom of the file they test. Integration tests form
-  one binary, `tests/it/main.rs`, with a module per area. Why: one binary links the crate once. Source: the
-  Book 11.3; matklad, "Delete Cargo Integration Tests".
+Read and follow the [canonical definition](../../.agents/rust/contract/testing/SKILL.md) in full.
+This discovery entry is generated; edit the referenced `.agents/` definition.
