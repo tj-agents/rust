@@ -9,10 +9,17 @@
       {
         "id": "rust-agents",
         "repository": "tj-agents/rust"
+      },
+      {
+        "id": "tj-agents",
+        "repository": "tj-agents/marketplace"
       }
     ],
     "plugins": [
-      "rust-agents/rust"
+      "rust-agents/rust",
+      "tj-agents/base",
+      "tj-agents/engineering",
+      "tj-agents/machine"
     ],
     "hooks": [],
     "permissions": {

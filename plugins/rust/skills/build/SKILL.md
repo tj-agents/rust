@@ -11,15 +11,5 @@ provenance: house
 
 # Rust build
 
-Owns the toolchain pin, edition, cargo profiles and features, the fmt, clippy and test gate, and CI.
-
-## Agreed
-
-- Edition 2024. An application pins an exact toolchain in `rust-toolchain.toml` (`clippy` and `rustfmt`,
-  profile `minimal`); a library tracks `channel = "stable"`. Both set `rust-version` to the minor they target.
-  Source: ruff, uv and zed pin exactly; tokio and bevy track stable.
-- The gate runs locally and in CI on Windows and Ubuntu: `cargo fmt --all --check`, `cargo clippy --workspace
-  --all-targets --all-features -- -D warnings` and `cargo test --workspace --all-features`. Source: house,
-  per `rust:style`'s lint level.
-- Crates forbid `unsafe_code`. Source: house.
-- A new project starts from `rust:scaffold`. Source: house.
+Read and follow the [canonical definition](../../.agents/rust/contract/build/SKILL.md) in full.
+This discovery entry is generated; edit the referenced `.agents/` definition.
