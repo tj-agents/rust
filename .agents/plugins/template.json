@@ -1,6 +1,5 @@
 {
   "schema_version": 1,
   "repository": "tj-agents/rust",
-  "type": "stack",
-  "template": "2.0.0"
+  "type": "stack"
 }
