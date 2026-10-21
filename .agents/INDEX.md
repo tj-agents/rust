@@ -7,6 +7,7 @@ Generated from `.agents/<plugin>/<kind>/<family>/<member>/SKILL.md`; a skill's n
 - `build` — contract — core — `.agents/rust/contract/build/SKILL.md`
 - `domain-design` — contract — core — `.agents/rust/contract/domain-design/SKILL.md`
 - `errors` — contract — core — `.agents/rust/contract/errors/SKILL.md`
+- `explanation` — contract — explanation — `.agents/rust/contract/explanation/SKILL.md`
 - `libraries` — contract — core — `.agents/rust/contract/libraries/SKILL.md`
 - `structure` — contract — core — `.agents/rust/contract/structure/SKILL.md`
 - `style` — contract — core — `.agents/rust/contract/style/SKILL.md`

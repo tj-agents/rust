@@ -15,6 +15,9 @@
       "style",
       "testing"
     ],
+    "explanation": [
+      "explanation"
+    ],
     "knowledge": [
       "direction",
       "knowledge",
@@ -72,6 +75,20 @@
       "name": "errors",
       "kind": "contract",
       "profile": "core",
+      "applicability": [
+        "Rust projects"
+      ],
+      "requires": [
+        "rust"
+      ],
+      "provenance": [
+        "house"
+      ]
+    },
+    {
+      "name": "explanation",
+      "kind": "contract",
+      "profile": "explanation",
       "applicability": [
         "Rust projects"
       ],
