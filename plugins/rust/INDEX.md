@@ -3,7 +3,7 @@
 - `build` — contract — core
 - `domain-design` — contract — core
 - `errors` — contract — core
-- `explanation` — contract — explanation
+- `explanation` — contract — core
 - `libraries` — contract — core
 - `structure` — contract — core
 - `style` — contract — core

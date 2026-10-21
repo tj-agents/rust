@@ -10,13 +10,11 @@
       "build",
       "domain-design",
       "errors",
+      "explanation",
       "libraries",
       "structure",
       "style",
       "testing"
-    ],
-    "explanation": [
-      "explanation"
     ],
     "knowledge": [
       "direction",
@@ -88,7 +86,7 @@
     {
       "name": "explanation",
       "kind": "contract",
-      "profile": "explanation",
+      "profile": "core",
       "applicability": [
         "Rust projects"
       ],

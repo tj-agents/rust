@@ -3,7 +3,7 @@ name: explanation
 description: How Rust is quoted when explaining Rust code. Use when an explanation shows Rust source.
 kind: contract
 domain: rust
-profile: explanation
+profile: core
 applicability: Rust projects
 requires: rust
 provenance: house
