@@ -29,7 +29,7 @@ class RustCoreProfileTests(unittest.TestCase):
             name for name, skill in self.skills.items() if skill["metadata"]["profile"] == "core"
         }
         self.assertEqual(
-            {"style", "structure", "domain-design", "errors", "build", "libraries", "testing"},
+            {"style", "structure", "domain-design", "errors", "build", "libraries", "testing", "explanation"},
             core_names,
         )
 
