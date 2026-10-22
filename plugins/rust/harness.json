@@ -1,22 +1,18 @@
 {
   "schema_version": 1,
-  "plugin": "rust-agents/rust",
+  "plugin": "tj-agents/rust",
   "source_roots": [
     ".agents/rust"
   ],
   "requires": {
     "marketplaces": [
       {
-        "id": "rust-agents",
-        "repository": "tj-agents/rust"
-      },
-      {
         "id": "tj-agents",
         "repository": "tj-agents/marketplace"
       }
     ],
     "plugins": [
-      "rust-agents/rust",
+      "tj-agents/rust",
       "tj-agents/base",
       "tj-agents/engineering",
       "tj-agents/machine"

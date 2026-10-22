@@ -1,5 +1,4 @@
 {
-  "name": "rust-agents",
   "interface": {
     "displayName": "Rust"
   }

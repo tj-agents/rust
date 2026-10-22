@@ -1,5 +1,5 @@
 {
-  "name": "rust-agents",
+  "name": "tj-agents",
   "description": "Rust learning companion and standards, distributed as load-on-demand skills.",
   "owner": {
     "name": "Tommy Seery"
@@ -17,8 +17,5 @@
         "standards"
       ]
     }
-  ],
-  "allowCrossMarketplaceDependenciesOn": [
-    "tj-agents"
   ]
 }
