@@ -1,7 +1,7 @@
 # rust
 
-Rust learning companion and standards for Claude Code and Codex, published as `rust@tj-agents` (repository
-marketplace `rust-agents`).
+Rust learning companion and standards for Claude Code and Codex, published as `rust@tj-agents` from the
+`tj-agents` marketplace.
 
 ## Skills
 
