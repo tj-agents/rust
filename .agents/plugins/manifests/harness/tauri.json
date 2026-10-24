@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "plugin": "tj-agents/tauri",
+  "source_roots": [
+    ".agents/tauri"
+  ],
+  "requires": {
+    "marketplaces": [
+      {
+        "id": "tj-agents",
+        "repository": "tj-agents/marketplace"
+      }
+    ],
+    "plugins": [
+      "tj-agents/tauri",
+      "tj-agents/rust"
+    ],
+    "hooks": [],
+    "permissions": {
+      "claude_allow": [],
+      "codex_prefix_rules": []
+    }
+  }
+}
