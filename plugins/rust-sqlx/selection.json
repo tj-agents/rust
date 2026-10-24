@@ -1,0 +1,48 @@
+{
+  "plugin": "rust-sqlx",
+  "dependencies": [
+    "tj-agents/base",
+    "tj-agents/engineering",
+    "tj-agents/machine",
+    "rust"
+  ],
+  "profiles": {
+    "core": [
+      "migrations",
+      "persistence"
+    ]
+  },
+  "compatibilitySkillAliases": {},
+  "skills": [
+    {
+      "name": "migrations",
+      "kind": "convention",
+      "profile": "core",
+      "applicability": [
+        "Projects explicitly selecting rust-sqlx"
+      ],
+      "requires": [
+        "rust",
+        "sqlx-migrate"
+      ],
+      "provenance": [
+        "framework"
+      ]
+    },
+    {
+      "name": "persistence",
+      "kind": "convention",
+      "profile": "core",
+      "applicability": [
+        "Projects explicitly selecting rust-sqlx"
+      ],
+      "requires": [
+        "rust",
+        "sqlx"
+      ],
+      "provenance": [
+        "framework"
+      ]
+    }
+  ]
+}

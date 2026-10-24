@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "tier": "tauri",
+  "stack": "Tauri 2",
+  "applies": "stack-present",
+  "owner_repository": [
+    "tj-agents/rust"
+  ],
+  "detect": {
+    "files": [
+      "src-tauri/tauri.conf.json",
+      "src-tauri/tauri.conf.json5",
+      "src-tauri/Tauri.toml",
+      "tauri.conf.json",
+      "tauri.conf.json5",
+      "Tauri.toml"
+    ],
+    "content": [
+      {
+        "glob": "Cargo.toml",
+        "pattern": "(?m)^\\s*tauri\\s*="
+      }
+    ]
+  },
+  "routes": [
+    {
+      "path": "(^|/)(src-tauri/)?(tauri\\.conf\\.json5?|Tauri\\.toml|build\\.rs)$",
+      "skills": [
+        "tauri:structure",
+        "tauri:commands"
+      ]
+    },
+    {
+      "path": "\\.(rs|[jt]sx?|json|toml)$",
+      "content_requires": "tauri::|@tauri-apps/|\"permissions\"\\s*:",
+      "skills": [
+        "tauri:commands"
+      ]
+    },
+    {
+      "path": "(^|/)src-tauri/(capabilities|permissions)/",
+      "skills": [
+        "tauri:commands"
+      ]
+    },
+    {
+      "path": "\\.rs$",
+      "content_requires": "\\.manage\\(|generate_handler!",
+      "skills": [
+        "tauri:structure"
+      ]
+    }
+  ]
+}

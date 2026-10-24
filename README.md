@@ -3,6 +3,15 @@
 Rust learning companion and standards for Claude Code and Codex, published as `rust@tj-agents` from the
 `tj-agents` marketplace.
 
+## Optional sibling capabilities
+
+Select `tauri@tj-agents` for `tauri:structure` and `tauri:commands`; select `rust-sqlx@tj-agents`
+for `rust-sqlx:persistence` and `rust-sqlx:migrations`. Both depend on Rust but not on each other,
+React or a database engine. Explicit application composition chooses their combination. Tauri/SQLx
+source evidence activates their routes; an ordinary Rust file does not activate either framework.
+SQLite-specific guidance is labelled; generic Rust contracts retain their existing scope and decisions.
+Testing/packaging capabilities are added when those stages are entered, without placeholder families.
+
 ## Skills
 
 - Knowledge: `rust:learning` (learning and delivery modes, teaching rules, and how a convention is agreed),

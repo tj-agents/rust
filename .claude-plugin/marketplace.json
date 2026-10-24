@@ -16,6 +16,28 @@
         "learning",
         "standards"
       ]
+    },
+    {
+      "name": "rust-sqlx",
+      "source": "./plugins/rust-sqlx",
+      "description": "Rust SQLx persistence, transactions, migrations and optional offline query metadata.",
+      "category": "Productivity",
+      "keywords": [
+        "rust-sqlx",
+        "rust",
+        "standards"
+      ]
+    },
+    {
+      "name": "tauri",
+      "source": "./plugins/tauri",
+      "description": "Tauri 2 native boundaries, managed state, typed commands and capabilities.",
+      "category": "Productivity",
+      "keywords": [
+        "tauri",
+        "rust",
+        "standards"
+      ]
     }
   ]
 }
