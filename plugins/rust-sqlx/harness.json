@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "plugin": "tj-agents/rust-sqlx",
+  "source_roots": [
+    ".agents/rust-sqlx"
+  ],
+  "requires": {
+    "marketplaces": [
+      {
+        "id": "tj-agents",
+        "repository": "tj-agents/marketplace"
+      }
+    ],
+    "plugins": [
+      "tj-agents/rust-sqlx",
+      "tj-agents/base",
+      "tj-agents/engineering",
+      "tj-agents/machine",
+      "tj-agents/rust"
+    ],
+    "hooks": [],
+    "permissions": {
+      "claude_allow": [],
+      "codex_prefix_rules": []
+    }
+  }
+}

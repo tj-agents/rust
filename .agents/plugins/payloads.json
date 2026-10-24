@@ -1,5 +1,21 @@
 {
   "payloads": {
-    "rust": ["rust"]
+    "rust": [
+      "rust"
+    ],
+    "tauri": [
+      "tauri"
+    ],
+    "rust-sqlx": [
+      "rust-sqlx"
+    ]
+  },
+  "dependencies": {
+    "tauri": [
+      "rust"
+    ],
+    "rust-sqlx": [
+      "rust"
+    ]
   }
 }

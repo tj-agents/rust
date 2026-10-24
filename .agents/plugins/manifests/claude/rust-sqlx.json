@@ -1,0 +1,15 @@
+{
+  "name": "rust-sqlx",
+  "description": "Rust SQLx persistence, transactions, migrations and optional offline query metadata.",
+  "author": {
+    "name": "Tommy Seery"
+  },
+  "repository": "https://github.com/tj-agents/rust",
+  "skills": "./skills/",
+  "keywords": [
+    "rust-sqlx",
+    "rust",
+    "standards"
+  ],
+  "displayName": "Rust SQLx"
+}

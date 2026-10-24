@@ -1,0 +1,23 @@
+{
+  "name": "tauri",
+  "description": "Tauri 2 native boundaries, managed state, typed commands and capabilities.",
+  "author": {
+    "name": "Tommy Seery"
+  },
+  "repository": "https://github.com/tj-agents/rust",
+  "skills": "./skills/",
+  "keywords": [
+    "tauri",
+    "rust",
+    "standards"
+  ],
+  "interface": {
+    "displayName": "Tauri",
+    "shortDescription": "Tauri 2 native boundaries, managed state, typed commands and capabilities.",
+    "longDescription": "Tauri 2 native boundaries, managed state, typed commands and capabilities.",
+    "developerName": "Tommy Seery",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Apply the selected Tauri capability to the relevant concern."
+  }
+}
