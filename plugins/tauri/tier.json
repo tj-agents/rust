@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 3,
   "tier": "tauri",
   "stack": "Tauri 2",
   "applies": "stack-present",
@@ -7,18 +7,18 @@
     "tj-agents/rust"
   ],
   "detect": {
-    "files": [
-      "src-tauri/tauri.conf.json",
-      "src-tauri/tauri.conf.json5",
-      "src-tauri/Tauri.toml",
-      "tauri.conf.json",
-      "tauri.conf.json5",
-      "Tauri.toml"
-    ],
-    "content": [
+    "any": [
       {
-        "glob": "Cargo.toml",
-        "pattern": "(?m)^\\s*tauri\\s*="
+        "content": {
+          "glob": "tauri.conf.json*",
+          "pattern": "https://schema\\.tauri\\.app/config/2\\b"
+        }
+      },
+      {
+        "content": {
+          "glob": "Cargo.toml",
+          "pattern": "(?ms)^\\s*tauri\\s*=\\s*(?:[\"']\\s*[~^=]?\\s*2(?:\\.|[\"'])|\\{[^\\r\\n}]*\\bversion\\s*=\\s*[\"']\\s*[~^=]?\\s*2(?:\\.|[\"']))|^\\s*\\[(?:workspace\\.)?(?:dependencies|dev-dependencies|build-dependencies)\\.tauri\\]\\s*\\n(?:(?!^\\s*\\[).)*?^\\s*version\\s*=\\s*[\"']\\s*[~^=]?\\s*2(?:\\.|[\"'])"
+        }
       }
     ]
   },
