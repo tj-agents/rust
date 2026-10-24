@@ -1,0 +1,15 @@
+{
+  "name": "tauri",
+  "description": "Tauri 2 native boundaries, managed state, typed commands and capabilities.",
+  "author": {
+    "name": "Tommy Seery"
+  },
+  "repository": "https://github.com/tj-agents/rust",
+  "skills": "./skills/",
+  "keywords": [
+    "tauri",
+    "rust",
+    "standards"
+  ],
+  "displayName": "Tauri"
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "tier": "rust-sqlx",
+  "stack": "Rust SQLx",
+  "applies": "stack-present",
+  "owner_repository": [
+    "tj-agents/rust"
+  ],
+  "detect": {
+    "content": [
+      {
+        "glob": "Cargo.toml",
+        "pattern": "(?m)^\\s*sqlx\\s*=|\\[.*dependencies\\.sqlx\\]"
+      }
+    ]
+  },
+  "routes": [
+    {
+      "path": "\\.rs$",
+      "content_requires": "\\bsqlx\\b",
+      "skills": [
+        "rust-sqlx:persistence"
+      ]
+    },
+    {
+      "path": "(^|/)(migrations/.*\\.sql|\\.sqlx/.*\\.json)$",
+      "skills": [
+        "rust-sqlx:migrations"
+      ]
+    },
+    {
+      "path": "\\.rs$",
+      "content_requires": "sqlx::(migrate!|query!|query_as!|query_scalar!)",
+      "skills": [
+        "rust-sqlx:migrations"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "plugin": "tauri",
+  "dependencies": [
+    "tj-agents/base",
+    "tj-agents/engineering",
+    "tj-agents/machine",
+    "rust"
+  ],
+  "profiles": {
+    "core": [
+      "commands",
+      "structure"
+    ]
+  },
+  "compatibilitySkillAliases": {},
+  "skills": [
+    {
+      "name": "commands",
+      "kind": "convention",
+      "profile": "core",
+      "applicability": [
+        "Projects explicitly selecting tauri"
+      ],
+      "requires": [
+        "tauri-2",
+        "serde"
+      ],
+      "provenance": [
+        "framework"
+      ]
+    },
+    {
+      "name": "structure",
+      "kind": "convention",
+      "profile": "core",
+      "applicability": [
+        "Projects explicitly selecting tauri"
+      ],
+      "requires": [
+        "tauri-2"
+      ],
+      "provenance": [
+        "framework"
+      ]
+    }
+  ]
+}
