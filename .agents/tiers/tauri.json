@@ -21,34 +21,5 @@
         }
       }
     ]
-  },
-  "routes": [
-    {
-      "path": "(^|/)(src-tauri/)?(tauri\\.conf\\.json5?|Tauri\\.toml|build\\.rs)$",
-      "skills": [
-        "tauri:structure",
-        "tauri:commands"
-      ]
-    },
-    {
-      "path": "\\.(rs|[jt]sx?|json|toml)$",
-      "content_requires": "tauri::|@tauri-apps/|\"permissions\"\\s*:",
-      "skills": [
-        "tauri:commands"
-      ]
-    },
-    {
-      "path": "(^|/)src-tauri/(capabilities|permissions)/",
-      "skills": [
-        "tauri:commands"
-      ]
-    },
-    {
-      "path": "\\.rs$",
-      "content_requires": "\\.manage\\(|generate_handler!",
-      "skills": [
-        "tauri:structure"
-      ]
-    }
-  ]
+  }
 }
