@@ -15,7 +15,6 @@
       "tj-agents/tauri",
       "tj-agents/base",
       "tj-agents/engineering",
-      "tj-agents/machine",
       "tj-agents/rust"
     ],
     "hooks": [],
