@@ -14,7 +14,13 @@ class RustCoreProfileTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.config = sync_generated.load_config(ROOT)
-        cls.plugins = sync_generated.discover(ROOT, cls.config["namespace"])
+        cls.plugins = sync_generated.discover(
+            ROOT,
+            cls.config["namespace"],
+            sync_generated.mapped_resource_directories(
+                sync_generated.load(ROOT / ".agents/plugins/payloads.json")
+            ),
+        )
         cls.skills = cls.plugins["rust"]
 
     def test_required_stack_contracts_are_core_and_present(self) -> None:
