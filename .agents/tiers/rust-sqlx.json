@@ -1,16 +1,17 @@
 {
-  "schema_version": 1,
   "tier": "rust-sqlx",
   "stack": "Rust SQLx",
   "applies": "stack-present",
-  "owner_repository": [
-    "tj-agents/rust"
-  ],
   "detect": {
-    "content": [
+    "any": [
       {
-        "glob": "Cargo.toml",
-        "pattern": "(?m)^\\s*sqlx\\s*=|\\[.*dependencies\\.sqlx\\]"
+        "content": {
+          "glob": "Cargo.toml",
+          "pattern": "(?m)^\\s*sqlx\\s*=|\\[.*dependencies\\.sqlx\\]"
+        }
+      },
+      {
+        "remote": "^tj\\-agents/rust$"
       }
     ]
   }

@@ -1,17 +1,18 @@
 {
-  "schema_version": 1,
   "tier": "rust",
   "stack": "Rust",
   "applies": "stack-present",
-  "owner_repository": [
-    "tj-agents/rust"
-  ],
   "detect": {
-    "files": [
-      "Cargo.toml"
-    ],
-    "globs": [
-      "*.rs"
+    "any": [
+      {
+        "file": "Cargo.toml"
+      },
+      {
+        "glob": "*.rs"
+      },
+      {
+        "remote": "^tj\\-agents/rust$"
+      }
     ]
   }
 }
