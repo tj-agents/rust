@@ -23,14 +23,14 @@ class RustCoreProfileTests(unittest.TestCase):
         )
         cls.skills = cls.plugins["rust"]
 
-    def test_required_stack_contracts_are_core_and_present(self) -> None:
+    def test_required_stack_standards_are_core_and_present(self) -> None:
         required = {"style", "structure", "domain-design", "errors", "testing", "build", "libraries"}
         self.assertTrue(required.issubset(self.skills))
         for name in required:
-            self.assertEqual("contract", self.skills[name]["kind"])
+            self.assertEqual("standard", self.skills[name]["kind"])
             self.assertEqual("core", self.skills[name]["metadata"]["profile"])
 
-    def test_core_is_exactly_the_contracts(self) -> None:
+    def test_core_is_exactly_the_standards(self) -> None:
         core_names = {
             name for name, skill in self.skills.items() if skill["metadata"]["profile"] == "core"
         }
@@ -46,9 +46,13 @@ class RustCoreProfileTests(unittest.TestCase):
     def test_scaffold_is_its_own_profile(self) -> None:
         self.assertEqual("scaffold", self.skills["scaffold"]["metadata"]["profile"])
 
-    def test_knowledge_tier_keeps_its_own_profile(self) -> None:
-        for name in ("learning", "knowledge", "direction"):
+    def test_learning_and_direction_keep_their_profile(self) -> None:
+        for name in ("learning", "direction"):
             self.assertEqual("knowledge", self.skills[name]["metadata"]["profile"])
+        self.assertNotIn("knowledge", self.skills)
+        self.assertEqual("learning", self.skills["learning"]["kind"])
+        self.assertEqual("reference", self.skills["direction"]["kind"])
+        self.assertTrue((ROOT / ".agents/rust/learning/knowledge.md").is_file())
 
 
 if __name__ == "__main__":

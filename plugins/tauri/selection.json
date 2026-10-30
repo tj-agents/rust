@@ -15,7 +15,7 @@
   "skills": [
     {
       "name": "commands",
-      "kind": "convention",
+      "kind": "standard",
       "profile": "core",
       "applicability": [
         "Projects explicitly selecting tauri"
@@ -30,7 +30,7 @@
     },
     {
       "name": "structure",
-      "kind": "convention",
+      "kind": "standard",
       "profile": "core",
       "applicability": [
         "Projects explicitly selecting tauri"
