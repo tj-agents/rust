@@ -15,7 +15,7 @@
   "skills": [
     {
       "name": "migrations",
-      "kind": "convention",
+      "kind": "standard",
       "profile": "core",
       "applicability": [
         "Projects explicitly selecting rust-sqlx"
@@ -30,7 +30,7 @@
     },
     {
       "name": "persistence",
-      "kind": "convention",
+      "kind": "standard",
       "profile": "core",
       "applicability": [
         "Projects explicitly selecting rust-sqlx"

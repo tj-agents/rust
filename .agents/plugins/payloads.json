@@ -17,5 +17,12 @@
     "rust-sqlx": [
       "rust"
     ]
-  }
+  },
+  "resources": [
+    {
+      "plugin": "rust",
+      "source": ".agents/rust/learning",
+      "destination": ".agents/rust/learning"
+    }
+  ]
 }

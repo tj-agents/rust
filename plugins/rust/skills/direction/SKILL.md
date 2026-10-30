@@ -1,15 +1,16 @@
 ---
 name: direction
-description: Where Tommy is headed with Rust — the goal, the skill tree he is working through, and the reference books every explanation and convention cites. Use when choosing or sequencing what to learn next, or when sourcing a Rust explanation or a proposed convention.
-kind: knowledge
-domain: rust
-profile: knowledge
-applicability: Rust projects and learning
-requires: rust
-provenance: house
+description: Rust learning orientation and agreed reference books. Use when locating Tommy's recorded goal, skill-tree status or proven knowledge, or sourcing a Rust explanation or proposed standard; rust:learning owns teaching, progress and agreement.
+metadata:
+  tj-agents-kind: reference
+  tj-agents-domain: rust
+  tj-agents-profile: knowledge
+  tj-agents-applicability: Rust projects and learning
+  tj-agents-requires: rust
+  tj-agents-provenance: house
 ---
 
-# Where Tommy is headed with Rust
+# Rust learning orientation
 
-Read and follow the [canonical definition](../../.agents/rust/knowledge/direction/SKILL.md) in full.
+Read and follow the [canonical definition](../../.agents/rust/skills/direction/SKILL.md) in full.
 This discovery entry is generated; edit the referenced `.agents/` definition.

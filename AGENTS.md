@@ -1,7 +1,7 @@
 # rust
 
 This repository uses the plugin layout `template:check` documents and enforces
-(https://github.com/tj-agents/template). Authored skills live once under `.agents/<plugin>/<kind>/<name>/SKILL.md`,
+(https://github.com/tj-agents/template). Authored skills live once under `.agents/<namespace>/skills/<subject>/SKILL.md`,
 with each skill's scripts and templates beside it; related skills share a family folder, family first
 (`state/client/` publishes `state-client`). `.agents/sync_generated.py`, `.agents/sync-generated.ps1`,
 `.gitattributes`, `.gitignore`, `CLAUDE.md` and `.github/workflows/ci.yml` are vendored from the current Template.
@@ -11,8 +11,8 @@ Change them in Template, then run `template:update` to refresh them.
 `pwsh .agents/sync-generated.ps1` after authored changes and require `pwsh .agents/sync-generated.ps1 -Check`
 before delivery.
 
-`knowledge` is Tommy's progress record: change it only under `learning`'s Progress rules. A `contract` skill
-gains a rule only through `learning`'s convention procedure, after Tommy decides it.
+Learner records live under `.agents/rust/learning/`; change them only under `rust:learning`'s Progress rules. Standards gain rules through the learning procedure after Tommy decides them.
+Skill kind describes responsibility independently of its subject path.
 
 <!-- BEGIN personal:rules sha256:eee7a719bb90e67aaa81ac101a45836dd099bc745fee61216c99ec7d6075f12d -->
 # Personal rules
