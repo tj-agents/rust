@@ -1,11 +1,7 @@
 {
-  "schema_version": 3,
   "tier": "tauri",
   "stack": "Tauri 2",
   "applies": "stack-present",
-  "owner_repository": [
-    "tj-agents/rust"
-  ],
   "detect": {
     "any": [
       {
