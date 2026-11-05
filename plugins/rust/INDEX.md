@@ -1,14 +1,13 @@
 # rust package capabilities
 
-- `build` — contract — core
-- `domain-design` — contract — core
-- `errors` — contract — core
-- `explanation` — contract — core
-- `libraries` — contract — core
-- `structure` — contract — core
-- `style` — contract — core
-- `testing` — contract — core
-- `direction` — knowledge — knowledge
-- `knowledge` — knowledge — knowledge
-- `learning` — knowledge — knowledge
-- `scaffold` — utility — scaffold
+- `learning` — learning — knowledge
+- `scaffold` — operation — scaffold
+- `direction` — reference — knowledge
+- `build` — standard — core
+- `domain-design` — standard — core
+- `errors` — standard — core
+- `explanation` — standard — core
+- `libraries` — standard — core
+- `structure` — standard — core
+- `style` — standard — core
+- `testing` — standard — core

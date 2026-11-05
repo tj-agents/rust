@@ -1,4 +1,4 @@
 # rust-sqlx package capabilities
 
-- `migrations` — convention — core
-- `persistence` — convention — core
+- `migrations` — standard — core
+- `persistence` — standard — core

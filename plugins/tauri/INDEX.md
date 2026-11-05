@@ -1,4 +1,4 @@
 # tauri package capabilities
 
-- `commands` — convention — core
-- `structure` — convention — core
+- `commands` — standard — core
+- `structure` — standard — core
