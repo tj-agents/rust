@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "plugin": "tj-agents/seaorm",
+  "source_roots": [
+    ".agents/seaorm"
+  ],
+  "requires": {
+    "marketplaces": [
+      {
+        "id": "tj-agents",
+        "repository": "tj-agents/marketplace"
+      }
+    ],
+    "plugins": [
+      "tj-agents/seaorm",
+      "tj-agents/rust"
+    ],
+    "hooks": [],
+    "permissions": {
+      "claude_allow": [],
+      "codex_prefix_rules": []
+    }
+  }
+}
