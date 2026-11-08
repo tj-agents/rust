@@ -17,10 +17,10 @@
       "category": "Productivity"
     },
     {
-      "name": "rust-seaorm",
+      "name": "rust-sqlx",
       "source": {
         "source": "local",
-        "path": "./plugins/rust-seaorm"
+        "path": "./plugins/rust-sqlx"
       },
       "policy": {
         "installation": "INSTALLED_BY_DEFAULT",
@@ -29,10 +29,10 @@
       "category": "Productivity"
     },
     {
-      "name": "rust-sqlx",
+      "name": "seaorm",
       "source": {
         "source": "local",
-        "path": "./plugins/rust-sqlx"
+        "path": "./plugins/seaorm"
       },
       "policy": {
         "installation": "INSTALLED_BY_DEFAULT",
