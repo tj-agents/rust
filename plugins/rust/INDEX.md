@@ -8,6 +8,7 @@
 - `structure` — contract — core
 - `style` — contract — core
 - `testing` — contract — core
+- `persistence` — convention — persistence
 - `direction` — knowledge — knowledge
 - `knowledge` — knowledge — knowledge
 - `learning` — knowledge — knowledge

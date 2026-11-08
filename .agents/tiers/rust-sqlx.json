@@ -10,7 +10,7 @@
     "content": [
       {
         "glob": "Cargo.toml",
-        "pattern": "(?m)^\\s*sqlx\\s*=|\\[.*dependencies\\.sqlx\\]"
+        "pattern": "(?m)^\\s*\"?sqlx\"?\\s*[=.]|\\[.*dependencies\\.sqlx\\]"
       }
     ]
   }

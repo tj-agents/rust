@@ -20,6 +20,9 @@
       "knowledge",
       "learning"
     ],
+    "persistence": [
+      "persistence"
+    ],
     "scaffold": [
       "scaffold"
     ]
@@ -136,6 +139,21 @@
       ],
       "provenance": [
         "house"
+      ]
+    },
+    {
+      "name": "persistence",
+      "kind": "convention",
+      "profile": "persistence",
+      "applicability": [
+        "Rust projects that persist state",
+        "regardless of persistence library"
+      ],
+      "requires": [
+        "rust"
+      ],
+      "provenance": [
+        "framework"
       ]
     },
     {

@@ -1,0 +1,47 @@
+{
+  "plugin": "rust-seaorm",
+  "dependencies": [
+    "tj-agents/base",
+    "tj-agents/engineering",
+    "rust"
+  ],
+  "profiles": {
+    "core": [
+      "migrations",
+      "persistence"
+    ]
+  },
+  "compatibilitySkillAliases": {},
+  "skills": [
+    {
+      "name": "migrations",
+      "kind": "convention",
+      "profile": "core",
+      "applicability": [
+        "Projects explicitly selecting rust-seaorm"
+      ],
+      "requires": [
+        "rust",
+        "sea-orm-migration"
+      ],
+      "provenance": [
+        "framework"
+      ]
+    },
+    {
+      "name": "persistence",
+      "kind": "convention",
+      "profile": "core",
+      "applicability": [
+        "Projects explicitly selecting rust-seaorm"
+      ],
+      "requires": [
+        "rust",
+        "sea-orm"
+      ],
+      "provenance": [
+        "framework"
+      ]
+    }
+  ]
+}
