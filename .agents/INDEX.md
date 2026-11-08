@@ -18,15 +18,15 @@ Generated from `.agents/<plugin>/<kind>/<family>/<member>/SKILL.md`; a skill's n
 - `learning` — knowledge — knowledge — `.agents/rust/knowledge/learning/SKILL.md`
 - `scaffold` — utility — scaffold — `.agents/rust/utility/scaffold/SKILL.md`
 
-## rust-seaorm
-
-- `migrations` — convention — core — `.agents/rust-seaorm/convention/migrations/SKILL.md`
-- `persistence` — convention — core — `.agents/rust-seaorm/convention/persistence/SKILL.md`
-
 ## rust-sqlx
 
 - `migrations` — convention — core — `.agents/rust-sqlx/convention/migrations/SKILL.md`
 - `persistence` — convention — core — `.agents/rust-sqlx/convention/persistence/SKILL.md`
+
+## seaorm
+
+- `migrations` — convention — core — `.agents/seaorm/convention/migrations/SKILL.md`
+- `persistence` — convention — core — `.agents/seaorm/convention/persistence/SKILL.md`
 
 ## tauri
 

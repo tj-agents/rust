@@ -1,0 +1,20 @@
+{
+  "name": "seaorm",
+  "description": "SeaORM entities, ActiveModel writes, transactions and sea-orm-migration migrations.",
+  "author": {
+    "name": "Tommy Seery"
+  },
+  "repository": "https://github.com/tj-agents/rust",
+  "skills": "./skills/",
+  "keywords": [
+    "seaorm",
+    "rust",
+    "standards"
+  ],
+  "displayName": "SeaORM",
+  "dependencies": [
+    "base@tj-agents",
+    "engineering@tj-agents",
+    "rust"
+  ]
+}

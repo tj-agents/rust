@@ -1,6 +1,6 @@
 ---
 name: persistence
-description: Rust persistence rules that hold whichever database library a project selects — the operation that owns a transaction, classifying storage failures, applying the schema before use, immutable migration history, tests against a real engine, and SQLite engine settings. Use when adding storage, a transaction or a migration to a Rust project; library detail lives in `rust-sqlx` or `rust-seaorm`.
+description: Rust persistence rules that hold whichever database library a project selects — the operation that owns a transaction, classifying storage failures, applying the schema before use, immutable migration history, tests against a real engine, and SQLite engine settings. Use when adding storage, a transaction or a migration to a Rust project; library detail lives in `rust-sqlx` or `seaorm`.
 kind: convention
 domain: rust
 profile: persistence
@@ -25,7 +25,7 @@ pub enum SaveError {
 ```
 
 A project selects one library family: `rust-sqlx` for hand-written SQL with explicit row mapping, or
-`rust-seaorm` for entities, ActiveModel and Rust migrations. `rust:structure` owns where the adapter and its
+`seaorm` for entities, ActiveModel and Rust migrations. `rust:structure` owns where the adapter and its
 row types live; `rust:errors` owns error shape.
 
 ## Transactions
