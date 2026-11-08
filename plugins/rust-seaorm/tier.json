@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "tier": "rust-seaorm",
+  "stack": "Rust SeaORM",
+  "applies": "stack-present",
+  "owner_repository": [
+    "tj-agents/rust"
+  ],
+  "detect": {
+    "content": [
+      {
+        "glob": "Cargo.toml",
+        "pattern": "(?m)^\\s*\"?sea-orm\"?\\s*[=.]|\\[.*dependencies\\.sea-orm\\]"
+      }
+    ]
+  }
+}
