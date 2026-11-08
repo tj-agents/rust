@@ -8,6 +8,9 @@
     ],
     "rust-sqlx": [
       "rust-sqlx"
+    ],
+    "rust-seaorm": [
+      "rust-seaorm"
     ]
   },
   "dependencies": {
@@ -15,6 +18,9 @@
       "rust"
     ],
     "rust-sqlx": [
+      "rust"
+    ],
+    "rust-seaorm": [
       "rust"
     ]
   }

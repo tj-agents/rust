@@ -1,6 +1,6 @@
 ---
 name: migrations
-description: Manage Rust SQLx schema migrations, preservation tests and offline query metadata when SQLx macros are selected. Use when changing SQLx schema, embedding migrations or updating .sqlx metadata; runtime queries do not require offline metadata.
+description: Manage Rust SQLx migration files, embedded migrations and offline query metadata when SQLx macros are selected. Use when changing SQLx schema, embedding migrations or updating .sqlx metadata; migration policy and tests are `rust:persistence`, and runtime queries do not require offline metadata.
 kind: convention
 domain: rust
 profile: core
