@@ -21,7 +21,8 @@ let row = session::Entity::insert(session::ActiveModel {
     id: NotSet,
     host: Set(handle.host().as_str().to_owned()),
     native_id: Set(handle.native_id().to_owned()),
-    ..Default::default()
+    cwd: Set(cwd.to_owned()),
+    ended_at: Set(None),
 })
 .on_conflict(
     OnConflict::columns([session::Column::Host, session::Column::NativeId])
@@ -42,28 +43,35 @@ entity to match the migrated schema, with `Option<T>` exactly where the column i
 
 ## Writes
 
-Build an `ActiveModel` with `Set` for every written column and `NotSet` for generated ones such as an
-auto-increment key. Use `insert(...).exec_with_returning` to get the stored row, and
+Build an `ActiveModel` with `Set` for every written column and `NotSet` only for generated ones such as
+an auto-increment key; an upsert updates only columns the ActiveModel sets, because a `NotSet` column
+takes its default from `excluded`. Use `insert(...).exec_with_returning` to get the stored row, and
 `on_conflict(OnConflict::columns(...))` for an upsert keyed by a natural unique key instead of a read
-followed by an insert, which races. An upsert that inserts nothing returns `DbErr::RecordNotInserted`;
-use `on_conflict_do_nothing` with `try_insert` when that is a normal outcome. Enable
-`sqlite-use-returning-for-3_35` for `RETURNING` on SQLite.
+followed by an insert, which races. To insert or get the existing row's id, use a no-op `DO UPDATE`
+(`update_column` of a key column) with `exec_with_returning`. When skipping an existing row is a normal
+outcome, use `on_conflict_do_nothing_on([columns])` and `TryInsert::exec`, which returns
+`TryInsertResult::Conflicted`; plain `on_conflict_do_nothing` targets only the primary key. RETURNING on
+SQLite needs `sqlite-use-returning-for-3_35`.
 
 ## Transactions and failures
 
 Begin with `TransactionTrait::begin`, pass `&txn` to every participating call and `commit()` it; a dropped
 `DatabaseTransaction` rolls back. Generic over `impl ConnectionTrait`, a helper runs on either the
-connection or a transaction. Classify `DbErr` with `sql_err()`: `SqlErr::UniqueConstraintViolation` and
-`ForeignKeyConstraintViolation` are conflicts; other errors are unavailable storage, kept as the source.
+connection or a transaction. Classify `DbErr` per `rust:persistence`: `RecordNotFound` and
+`RecordNotUpdated` are not found; `sql_err()` returning `SqlErr::UniqueConstraintViolation` or
+`ForeignKeyConstraintViolation` is a conflict; the rest is unavailable storage, kept as the source.
 
 ## SQLite connection
 
 Build `SqliteConnectOptions` from a path, set `create_if_missing`, `foreign_keys(true)`, `busy_timeout`
-and `journal_mode`, connect a pool with `SqlitePoolOptions` and wrap it with
-`SqlxSqliteConnector::from_sqlx_sqlite_pool`. `sea_orm::sqlx` re-exports the matching SQLx, so add no
-separate `sqlx` dependency. Alternatively `ConnectOptions::map_sqlx_sqlite_opts` applies the same
-options to a URL connection. Select only the features used: `sqlx-sqlite`, one `runtime-*`, `macros`
-and the `with-*` type features.
+and `journal_mode`, connect a pool with `SqlitePoolOptions` sized deliberately (`max_connections(1)` for
+one writer; the SQLx default is 10) and wrap it with `SqlxSqliteConnector::from_sqlx_sqlite_pool`.
+`sea_orm::sqlx` re-exports the matching SQLx, so add no separate `sqlx` dependency. A URL connection with
+`ConnectOptions::map_sqlx_sqlite_opts` takes the same SQLite options, and SeaORM then defaults the pool to
+one connection and checks the SQLite version for RETURNING. Declare `sea-orm` with
+`default-features = false` and the features used (`sqlx-sqlite`, one `runtime-*`, `macros`, `with-*`);
+`sea-orm-migration` with `default-features = false`, `sqlx-sqlite` and the same runtime, dropping its
+`cli` default. `sea-orm-migration` still enables `sea-orm`'s defaults in the build.
 
 Sources: [SeaORM docs](https://www.sea-ql.org/SeaORM/docs/index/),
 [insert and upsert](https://www.sea-ql.org/SeaORM/docs/basic-crud/insert/),

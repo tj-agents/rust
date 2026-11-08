@@ -31,6 +31,8 @@ impl MigrationTrait for Migration {
                     .table(Sessions::Table)
                     .col(pk_auto(Sessions::Id))
                     .col(string(Sessions::Host))
+                    .col(string(Sessions::NativeId))
+                    .col(string(Sessions::Cwd))
                     .col(timestamp_with_time_zone_null(Sessions::EndedAt))
                     .index(Index::create().unique().col(Sessions::Host).col(Sessions::NativeId))
                     .to_owned(),
@@ -47,13 +49,17 @@ adapter unless a separate migration crate or CLI is a concrete need. Name tables
 never reference entities, which change after the migration ships.
 
 SeaORM wraps a migration in a transaction only on PostgreSQL by default. Return `Some(true)` from
-`use_transaction` so a failed SQLite migration rolls back with its `seaql_migrations` record. Implement
-`down` only when the application actually rolls back.
+`use_transaction` so a failed SQLite migration rolls back with its `seaql_migrations` record. A migration
+that needs a connection PRAGMA, such as `foreign_keys = OFF` for a SQLite table rebuild, returns
+`Some(false)` and manages its own transaction with `manager.begin()` and `commit()`. Implement `down` only
+when the application actually rolls back.
 
 At startup call `Migrator::up(db, None)` when `Migrator::get_pending_migrations(db)` is non-empty, before
 serving operations. If `up` fails, re-check pending migrations: an empty list means another process
-applied them, otherwise surface the failure. Use `sea-orm-cli migrate generate` for new files and
-`sea-orm-cli generate entity` against a migrated disposable database to check hand-written entities.
+applied them, otherwise surface the failure. `sea-orm-cli migrate generate` works only for a separate
+migration crate and its template lacks `use_transaction`; in an adapter module add the file and its
+`Migrator` entry by hand in the shape above. `sea-orm-cli generate entity` against a migrated disposable
+database checks hand-written entities.
 Do not use entity-first schema sync for a schema that has deployed data.
 
 Sources: [migrations](https://www.sea-ql.org/SeaORM/docs/migration/setting-up-migration/),
