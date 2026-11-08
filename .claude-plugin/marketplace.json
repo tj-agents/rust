@@ -18,23 +18,23 @@
       ]
     },
     {
-      "name": "rust-seaorm",
-      "source": "./plugins/rust-seaorm",
-      "description": "Rust SeaORM entities, ActiveModel writes, transactions and sea-orm-migration migrations.",
-      "category": "Productivity",
-      "keywords": [
-        "rust-seaorm",
-        "rust",
-        "standards"
-      ]
-    },
-    {
       "name": "rust-sqlx",
       "source": "./plugins/rust-sqlx",
       "description": "Rust SQLx persistence, transactions, migrations and optional offline query metadata.",
       "category": "Productivity",
       "keywords": [
         "rust-sqlx",
+        "rust",
+        "standards"
+      ]
+    },
+    {
+      "name": "seaorm",
+      "source": "./plugins/seaorm",
+      "description": "SeaORM entities, ActiveModel writes, transactions and sea-orm-migration migrations.",
+      "category": "Productivity",
+      "keywords": [
+        "seaorm",
         "rust",
         "standards"
       ]

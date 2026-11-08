@@ -1,0 +1,23 @@
+{
+  "name": "seaorm",
+  "description": "SeaORM entities, ActiveModel writes, transactions and sea-orm-migration migrations.",
+  "author": {
+    "name": "Tommy Seery"
+  },
+  "repository": "https://github.com/tj-agents/rust",
+  "skills": "./skills/",
+  "keywords": [
+    "seaorm",
+    "rust",
+    "standards"
+  ],
+  "interface": {
+    "displayName": "SeaORM",
+    "shortDescription": "SeaORM entities, ActiveModel writes, transactions and sea-orm-migration migrations.",
+    "longDescription": "SeaORM entities, ActiveModel writes, transactions and sea-orm-migration migrations.",
+    "developerName": "Tommy Seery",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Apply the selected SeaORM capability to the relevant concern."
+  }
+}

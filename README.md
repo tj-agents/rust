@@ -7,8 +7,8 @@ Rust learning companion and standards for Claude Code and Codex, published as `r
 
 Select `tauri@tj-agents` for `tauri:structure` and `tauri:commands`. For persistence a project selects
 one library family: `rust-sqlx@tj-agents` (`rust-sqlx:persistence`, `rust-sqlx:migrations`) for hand-written
-SQL with explicit row mapping, or `rust-seaorm@tj-agents` (`rust-seaorm:persistence`,
-`rust-seaorm:migrations`) for SeaORM entities, ActiveModel and Rust migrations. Neither supersedes the
+SQL with explicit row mapping, or `seaorm@tj-agents` (`seaorm:persistence`,
+`seaorm:migrations`) for SeaORM entities, ActiveModel and Rust migrations. Neither supersedes the
 other; `rust:persistence` holds the rules both share. Each family depends on Rust but not on Tauri, React
 or a database engine. Tauri, SQLx and SeaORM source evidence activates their routes; an ordinary Rust file
 does not activate any framework.
