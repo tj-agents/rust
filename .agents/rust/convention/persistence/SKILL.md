@@ -52,7 +52,8 @@ process having applied the same migration.
 
 Exercise constraints, transaction rollback and migrations against a real temporary instance of the
 selected engine. Test both an empty database and an upgrade from a representative prior schema, checking
-that data survives and constraints hold.
+that data survives and constraints hold, and that a failing migration leaves the previous schema and the
+migration unrecorded.
 
 ## SQLite
 

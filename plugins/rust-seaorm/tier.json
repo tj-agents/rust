@@ -10,7 +10,7 @@
     "content": [
       {
         "glob": "Cargo.toml",
-        "pattern": "(?m)^\\s*sea-orm\\s*=|\\[.*dependencies\\.sea-orm\\]"
+        "pattern": "(?m)^\\s*\"?sea-orm\"?\\s*[=.]|\\[.*dependencies\\.sea-orm\\]"
       }
     ]
   }
