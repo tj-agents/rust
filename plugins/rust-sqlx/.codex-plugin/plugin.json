@@ -19,5 +19,6 @@
     "category": "Productivity",
     "capabilities": [],
     "defaultPrompt": "Apply the selected Rust SQLx capability to the relevant concern."
-  }
+  },
+  "version": "67a1b785d55c"
 }

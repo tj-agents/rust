@@ -20,5 +20,6 @@
     "category": "Productivity",
     "capabilities": [],
     "defaultPrompt": "Teach me the next Rust concept my current task needs."
-  }
+  },
+  "version": "272c9de9c2c5"
 }

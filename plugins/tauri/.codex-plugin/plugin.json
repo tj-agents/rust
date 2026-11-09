@@ -19,5 +19,6 @@
     "category": "Productivity",
     "capabilities": [],
     "defaultPrompt": "Apply the selected Tauri capability to the relevant concern."
-  }
+  },
+  "version": "2fd2285afc25"
 }
