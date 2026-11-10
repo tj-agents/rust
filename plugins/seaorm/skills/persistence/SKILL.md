@@ -1,6 +1,6 @@
 ---
 name: persistence
-description: Use when selected SeaORM code maps entities, writes ActiveModels, upserts or configures transactions and SQLite connections.
+description: Use when SeaORM code maps entities, writes ActiveModels, upserts, classifies DbErr values, or configures transactions and SQLite connections.
 kind: convention
 domain: rust
 profile: core
