@@ -25,7 +25,16 @@ Owns naming, formatting, comments, and the lint policy above the repository's cl
   C-CONV, C-GETTER, C-ITER, C-CTOR.
 - Clippy runs `all` and `pedantic` at warn, allowing `must_use_candidate`, `missing_errors_doc`,
   `missing_panics_doc`, `similar_names` and `too_many_lines`; warnings fail CI. Why: pedantic teaches idioms
-  once its noisiest lints are off. Source: ruff and uv `[workspace.lints]`.
+  once its noisiest lints are off. Enforced by `cargo clippy -- -D warnings`.
+  Source: ruff and uv `[workspace.lints]`.
 - A library documents every exported item with a one-line summary, plus `# Errors` and `# Panics` where not
   obvious, under `missing_docs = "warn"`. An application documents only what needs it. No doc restates a
-  name. Source: API Guidelines documentation chapter.
+  name. Exported documentation presence is enforced by rustc `missing_docs`.
+  Source: API Guidelines documentation chapter.
+
+```toml
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "warn"
+```
