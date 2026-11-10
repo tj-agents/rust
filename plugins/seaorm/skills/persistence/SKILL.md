@@ -1,6 +1,6 @@
 ---
 name: persistence
-description: Use SeaORM entities, ActiveModel writes, upserts, transactions and DbErr classification in a Rust storage adapter, and configure its SQLite connection. Use when adding or changing SeaORM storage; generic transaction, failure and SQLite rules are `rust:persistence`, and hand-written SQL projects select `rust-sqlx` instead.
+description: Use when selected SeaORM code maps entities, writes ActiveModels, upserts or configures transactions and SQLite connections.
 kind: convention
 domain: rust
 profile: core
