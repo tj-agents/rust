@@ -18,8 +18,13 @@ Owns the toolchain pin, edition, cargo profiles and features, the fmt, clippy an
 - Edition 2024. An application pins an exact toolchain in `rust-toolchain.toml` (`clippy` and `rustfmt`,
   profile `minimal`); a library tracks `channel = "stable"`. Both set `rust-version` to the minor they target.
   Source: ruff, uv and zed pin exactly; tokio and bevy track stable.
-- The gate runs locally and in CI on Windows and Ubuntu: `cargo fmt --all --check`, `cargo clippy --workspace
-  --all-targets --all-features -- -D warnings` and `cargo test --workspace --all-features`. Source: house,
-  per `rust:style`'s lint level.
-- Crates forbid `unsafe_code`. Source: house.
+- The gate runs locally and in CI on Windows and Ubuntu, per `rust:style`'s lint level.
+  Enforced by scaffolded CI. Source: house.
+- Crates forbid `unsafe_code`. Enforced by rustc `unsafe_code = "forbid"`. Source: house.
 - A new project starts from `rust:scaffold`. Source: house.
+
+```text
+cargo fmt --all --check
+cargo clippy --workspace --all-targets --all-features -- -D warnings
+cargo test --workspace --all-features
+```
