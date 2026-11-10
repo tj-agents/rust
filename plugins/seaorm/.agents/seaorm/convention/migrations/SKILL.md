@@ -1,6 +1,6 @@
 ---
 name: migrations
-description: Author and run SeaORM schema migrations with sea-orm-migration — a Migrator listing Rust migration modules, SchemaManager table definitions, transactional application on SQLite and running pending migrations at startup. Use when creating or changing a SeaORM schema; migration policy and tests are `rust:persistence`.
+description: Use when selected SeaORM code writes, registers or applies migrations, including transaction and concurrent-startup behaviour.
 kind: convention
 domain: rust
 profile: core
