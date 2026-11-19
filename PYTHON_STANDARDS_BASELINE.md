@@ -1,6 +1,6 @@
 # Python standards baseline
 
-Existing violations at `37b298adf42b142092ee26c40b2b9e056020ef8e` are baselined by exact authored file and rule. New files receive all enabled checks. Remove an exception when repairing its source. The tool configuration owns enforcement; this document records the rollout evidence and rationale.
+Existing violations at `2e1fe696a38ea1ed9710c1fa6a4e6735fffc27a2` are baselined by exact authored file and rule. New files receive all enabled checks. Remove an exception when repairing its source. The tool configuration owns enforcement; this document records the rollout evidence and rationale.
 
 ## Ruff
 
