@@ -56,9 +56,37 @@ Owns how values, newtypes, entities, enums and state transitions are modelled, a
 ### Shared behaviour
 
 - Accept a capability through generics (`impl Trait`, `<T: Trait>`); use `dyn Trait` only for a mixed
-  collection or to erase a type at a boundary. Share behaviour through small traits with default methods, and
-  add methods to a foreign type with an extension trait named `FooExt`. Why: generics inline and allocate
-  nothing, and Rust has no inheritance. Source: Effective Rust Items 12–13, the Book 18.1–18.2, RFC 445.
+  collection or to erase a type at a boundary. Share behaviour through small traits with default methods.
+  Why: generics inline and allocate nothing, and Rust has no inheritance. Source: Effective Rust Items 12–13,
+  the Book 18.1–18.2.
+- Behaviour has a receiver. A function whose work centres on one value is a method of that value's type,
+  never a free function taking it, by the first case that fits:
+  1. A type the crate owns (`State`, `Answer`): an inherent method (`state.check(…)`, `answer.install(…)`).
+  2. A value the crate does not own that carries a domain meaning (a path that is the publication record, a
+     string that is a commit): a domain newtype owning that meaning (`publication.revision()`,
+     `Commit::parse(text)`), never an extension method, which would offer it on every `Path` or `String`.
+  3. Behaviour true of every value of a foreign type (`Path`, `SystemTime`): a method on an extension trait
+     named `<Type>Ext` (`path.stamp()`, `time.is_recent(now, window)`). The trait stays private beside its
+     callers and moves to the module owning the concept once a second module needs it.
+
+  A free function remains only for work with no single receiver, such as a network request built from
+  arguments. Check every new free function against these cases when writing and when reviewing. Why: the call
+  reads as the value's behaviour, as a C# extension member does, and a domain type keeps its meaning off
+  unrelated values. Source: RFC 445; `itertools::Itertools`; the Book 5.3; Tommy, 2026-11-21.
+
+```rust
+impl State {
+    fn check(&self, host: Host) -> Result<Option<Update>, CheckError> { … } // 1: owned type
+}
+
+pub(crate) struct Publication { path: PathBuf }                             // 2: domain meaning
+impl Publication {
+    pub(crate) fn revision(&self) -> Option<String> { … }
+}
+
+trait PathExt { fn stamp(&self); }                                           // 3: any Path
+impl PathExt for Path { fn stamp(&self) { … } }
+```
 - A port trait exists only for an external boundary (storage, terminal, network) or several real
   implementations, never only to mock. Values such as the current time are read at the entry point and
   passed in; tests use real adapters or in-memory fakes. Why: a core that takes data needs no mocks. Source:

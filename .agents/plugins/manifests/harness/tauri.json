@@ -11,10 +11,6 @@
         "repository": "tj-agents/marketplace"
       }
     ],
-    "plugins": [
-      "tj-agents/tauri",
-      "tj-agents/rust"
-    ],
     "hooks": [],
     "permissions": {
       "claude_allow": [],

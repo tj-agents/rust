@@ -11,10 +11,6 @@
         "repository": "tj-agents/marketplace"
       }
     ],
-    "plugins": [
-      "tj-agents/rust-sqlx",
-      "tj-agents/rust"
-    ],
     "hooks": [],
     "permissions": {
       "claude_allow": [],
