@@ -56,9 +56,15 @@ Owns how values, newtypes, entities, enums and state transitions are modelled, a
 ### Shared behaviour
 
 - Accept a capability through generics (`impl Trait`, `<T: Trait>`); use `dyn Trait` only for a mixed
-  collection or to erase a type at a boundary. Share behaviour through small traits with default methods, and
-  add methods to a foreign type with an extension trait named `FooExt`. Why: generics inline and allocate
-  nothing, and Rust has no inheritance. Source: Effective Rust Items 12–13, the Book 18.1–18.2, RFC 445.
+  collection or to erase a type at a boundary. Share behaviour through small traits with default methods.
+  Why: generics inline and allocate nothing, and Rust has no inheritance. Source: Effective Rust Items 12–13,
+  the Book 18.1–18.2.
+- Behaviour of one value of a type the crate does not own (`Path`, `Command`, `SystemTime`) is a method on an
+  extension trait named `<Type>Ext`, called as `path.stamp()`, never a free function taking that value
+  (`stamp(path)`). The trait stays private beside its only callers and moves to the module owning the concept
+  once a second module needs it. A free function remains for work with no single receiver. Why: the call
+  reads as the value's behaviour, as a C# extension member does. Source: RFC 445; `itertools::Itertools`;
+  Tommy, 2026-11-21.
 - A port trait exists only for an external boundary (storage, terminal, network) or several real
   implementations, never only to mock. Values such as the current time are read at the entry point and
   passed in; tests use real adapters or in-memory fakes. Why: a core that takes data needs no mocks. Source:
